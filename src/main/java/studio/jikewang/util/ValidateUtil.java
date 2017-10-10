@@ -16,7 +16,7 @@ public class ValidateUtil {
      * @param value
      * @return
      */
-    public static boolean NotNull(Object value) {
+    public static boolean notNull(Object value) {
         return value != null;
     }
 
@@ -26,7 +26,7 @@ public class ValidateUtil {
      * @param value
      * @return
      */
-    public static boolean NotEmpty(String value) {
+    public static boolean notEmpty(String value) {
         return value != null && !"".equals(value);
     }
 

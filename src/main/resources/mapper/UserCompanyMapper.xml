@@ -8,8 +8,8 @@
     </sql>
 
     <insert id="saveUserCompany" parameterType="userCompany">
-        INSERT INTO `usercompany`(`company_id`,`user_id`)
-        VALUES (#{companyId}, #{userId})
+        INSERT INTO `usercompany`(`company_id`,`user_id`,`position`)
+        VALUES (#{companyId}, #{userId},#{position})
     </insert>
 
     <delete id="deleteUserCompany" parameterType="int">

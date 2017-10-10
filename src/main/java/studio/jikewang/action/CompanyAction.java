@@ -1,5 +1,6 @@
 package studio.jikewang.action;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -22,8 +23,9 @@ public class CompanyAction {
 
     @PostMapping("/")
     public Result saveCompany(@Validated({Insert.class}) Company company,
+                              @Validated @NotEmpty String userId,
                               Errors errors) {
-        companyService.saveCompany(company);
+        companyService.saveCompany(company,userId);
         return ResultUtil.SUCCESS_RESULT;
     }
 

@@ -8,19 +8,16 @@ import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.DefaultReflectorFactory;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import studio.jikewang.util.JsonUtil;
 import studio.jikewang.util.Page;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.regex.Pattern;
 
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
 public class PageInterceptor implements Interceptor {
     public Object intercept(Invocation invocation) throws Throwable {
-//        System.out.println("page interceptor");
         StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
         MetaObject metaObject = MetaObject.forObject(
                 statementHandler, SystemMetaObject.DEFAULT_OBJECT_FACTORY,
@@ -48,7 +45,6 @@ public class PageInterceptor implements Interceptor {
             if (rs.next()) {
                 init(page, rs.getInt(1));
             }
-            JsonUtil.prettyPrint(page);
             // 改造后带分页查询的SQL语句
             String pageSql = sql + "ORDER BY " + page.getOrderType() + " " + page.getOrder() + " limit " + page.getOffset() + "," + page.getPageSize();
 //            System.out.println("改造后带分页查询的SQL语句" + pageSql);
@@ -94,14 +90,5 @@ public class PageInterceptor implements Interceptor {
         // 设置limit的参数
         page.setOffset((page.getCurrentPage() - 1) * page.getPageSize());
 
-    }
-
-    public int checkCurrentPage(String currentPage) {
-        Pattern pattern = Pattern.compile("[0-9]{1,9}");
-        if (!pattern.matcher(currentPage).matches()) {
-            return 1;
-        } else {
-            return Integer.valueOf(currentPage);
-        }
     }
 }

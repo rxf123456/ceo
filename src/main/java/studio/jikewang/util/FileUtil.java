@@ -56,7 +56,7 @@ public class FileUtil {
     }
 
     public void delete(String filePath) {
-        if (ValidateUtil.NotEmpty(filePath)) {
+        if (ValidateUtil.notEmpty(filePath)) {
             String path = servletContext.getRealPath("/")
                     + filePath;
             FileUtils.deleteQuietly(new File(path));

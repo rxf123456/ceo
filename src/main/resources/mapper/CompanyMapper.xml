@@ -4,12 +4,12 @@
 <mapper namespace="studio.jikewang.dao.CompanyDao">
 
     <sql id="base_Column">
-        `id`,`name`,`number`,`score`
+        `id`,`name`,`number`,`score`,`add_time`
     </sql>
 
-    <insert id="saveCompany" parameterType="company">
-        INSERT INTO `company`(`name`,`number`)
-        VALUES (#{name}, #{number})
+    <insert id="saveCompany" parameterType="company" keyProperty="id">
+        INSERT INTO `company`(`name`,`number`,`add_time`)
+        VALUES (#{name}, #{number},now())
     </insert>
 
     <delete id="deleteCompany" parameterType="int">

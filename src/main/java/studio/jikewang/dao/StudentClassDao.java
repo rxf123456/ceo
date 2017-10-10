@@ -21,6 +21,8 @@ public interface StudentClassDao {
 
     StudentClass getStudentClass(int id);
 
+    StudentClass getStudentClassByUserId(String id);
+
     List<StudentClass> listStudentClasses(Page page);
 
     List<StudentClass> listStudentClassesByClassId(Page page);

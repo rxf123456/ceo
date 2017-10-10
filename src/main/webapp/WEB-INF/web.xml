@@ -27,22 +27,13 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-    <!--当使用REST ful API 上传文件时，需要配置-->
+    <!--Servlet不支持PUT表单，需要Spring支持-->
     <filter>
-        <filter-name>MultipartFilter</filter-name>
-        <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+        <filter-name>httpPutFormContentFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>MultipartFilter</filter-name>
-        <servlet-name>dispatcher</servlet-name>
-    </filter-mapping>
-    <!--启用RESTFul API-->
-    <filter>
-        <filter-name>HiddenHttpMethodFilter</filter-name>
-        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>HiddenHttpMethodFilter</filter-name>
+        <filter-name>httpPutFormContentFilter</filter-name>
         <servlet-name>dispatcher</servlet-name>
     </filter-mapping>
 

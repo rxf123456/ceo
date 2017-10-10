@@ -5,6 +5,8 @@ import org.hibernate.validator.constraints.Range;
 import studio.jikewang.util.Insert;
 import studio.jikewang.util.Update;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @author 李文浩
  * @version 2017/10/9.
@@ -12,7 +14,7 @@ import studio.jikewang.util.Update;
 public class UserCompany {
 
     private int id;
-    @NotEmpty(message = "公司号不为空", groups = Insert.class)
+    @NotNull(message = "公司号不为空", groups = Insert.class)
     private Integer companyId;
     @NotEmpty(message = "学号不为空", groups = Insert.class)
     private String userId;

@@ -3,7 +3,10 @@ package studio.jikewang.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import studio.jikewang.dao.CompanyDao;
+import studio.jikewang.dao.StudentClassDao;
+import studio.jikewang.dao.UserCompanyDao;
 import studio.jikewang.entity.Company;
+import studio.jikewang.entity.UserCompany;
 import studio.jikewang.exception.ErrorException;
 import studio.jikewang.util.Page;
 
@@ -20,9 +23,30 @@ public class CompanyService {
     @Autowired
     private CompanyDao companyDao;
 
-    public void saveCompany(Company company) {
-        company.setNumber(1);
-        companyDao.saveCompany(company);
+    @Autowired
+    private UserCompanyDao userCompanyDao;
+
+    @Autowired
+    private StudentClassDao studentClassDao;
+
+    public void saveCompany(Company company, String userId) {
+
+        if (studentClassDao.getStudentClassByUserId(userId) == null) {
+            throw new ErrorException("你不是老师指定的CEO");
+        } else {
+            company.setNumber(1);
+            if (companyDao.saveCompany(company) != 1) {
+                throw new ErrorException("创建公司不成功");
+            }
+            UserCompany userCompany = new UserCompany();
+            userCompany.setCompanyId(company.getId());
+            userCompany.setUserId(userId);
+            userCompany.setPosition("CEO");
+            if (userCompanyDao.saveUserCompany(userCompany) != 1) {
+                throw new ErrorException("公司CEO进入userCompany表不成功");
+            }
+        }
+
     }
 
     public void deleteCompany(int id) {

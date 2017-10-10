@@ -35,6 +35,13 @@
         WHERE `id`= #{_parameter}
     </select>
 
+    <select id="getStudentClassByUserId" parameterType="String" resultType="studentClass">
+        SELECT
+        <include refid="base_Column"/>
+        FROM `studentclass`
+        WHERE `user_id`= #{_parameter}
+    </select>
+
     <update id="updateStudentClass" parameterType="studentClass">
         UPDATE `studentclass`
         <trim prefix="set" suffixOverrides=",">

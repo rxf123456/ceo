@@ -35,6 +35,10 @@ public class StudentClassService {
         return studentClassDao.getStudentClass(id);
     }
 
+    public StudentClass getStudentClassByUserId(int id) {
+        return studentClassDao.getStudentClass(id);
+    }
+
     public List<StudentClass> listStudentClasses(Page page) {
         return studentClassDao.listStudentClasses(page);
     }

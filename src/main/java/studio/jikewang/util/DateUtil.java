@@ -29,7 +29,6 @@ public class DateUtil {
 
     @Test
     public void test() throws ParseException {
-
         System.out.println(notDeadline(df.parse("2017-4-22"), df.parse("2017-4-23")));
     }
 }
