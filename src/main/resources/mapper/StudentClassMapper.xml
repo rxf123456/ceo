@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="studio.jikewang.dao.StudentClassDao">
+
+    <sql id="base_Column">
+        `id`,`class_id`,`user_id`,`type`
+    </sql>
+
+    <insert id="saveStudentClass" parameterType="studentClass">
+        INSERT INTO `studentclass`(`class_id`,`user_id`)
+        VALUES (#{classId}, #{userId})
+    </insert>
+
+    <delete id="deleteStudentClass" parameterType="int">
+        DELETE FROM `studentclass` WHERE `id` = #{_parameter}
+    </delete>
+
+    <select id="listStudentClasses" parameterType="page" resultType="studentClass">
+        SELECT
+        <include refid="base_Column"/>
+        FROM `studentclass`
+    </select>
+
+    <select id="listStudentClassesByClassId" parameterType="page" resultType="studentClass">
+        SELECT
+        <include refid="base_Column"/>
+        FROM `studentclass` WHERE `class_id` LIKE #{object}"%"
+    </select>
+
+    <select id="getStudentClass" parameterType="int" resultType="studentClass">
+        SELECT
+        <include refid="base_Column"/>
+        FROM `studentclass`
+        WHERE `id`= #{_parameter}
+    </select>
+
+    <update id="updateStudentClass" parameterType="studentClass">
+        UPDATE `studentclass`
+        <trim prefix="set" suffixOverrides=",">
+            id = #{id},
+            <if test="type!=null">`type`=#{type},</if>
+        </trim>
+        WHERE `id`= #{id}
+    </update>
+</mapper>

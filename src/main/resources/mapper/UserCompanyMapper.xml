@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="studio.jikewang.dao.UserCompanyDao">
+
+    <sql id="base_Column">
+        `id`,`company_id`,`user_id`,`position`,`score_ceo`,`score_user`
+    </sql>
+
+    <insert id="saveUserCompany" parameterType="userCompany">
+        INSERT INTO `usercompany`(`company_id`,`user_id`)
+        VALUES (#{companyId}, #{userId})
+    </insert>
+
+    <delete id="deleteUserCompany" parameterType="int">
+        DELETE FROM `usercompany` WHERE `id` = #{_parameter}
+    </delete>
+
+    <select id="listUserCompanies" parameterType="page" resultType="userCompany">
+        SELECT
+        <include refid="base_Column"/>
+        FROM `usercompany`
+    </select>
+
+    <select id="listUserCompaniesByCompanyId" parameterType="page" resultType="userCompany">
+        SELECT
+        <include refid="base_Column"/>
+        FROM `usercompany` WHERE `company_id` LIKE #{object}"%"
+    </select>
+    <select id="listUserCompaniesByUserId" parameterType="page" resultType="userCompany">
+        SELECT
+        <include refid="base_Column"/>
+        FROM `usercompany` WHERE `user_id` LIKE #{object}"%"
+    </select>
+
+    <select id="getUserCompany" parameterType="int" resultType="userCompany">
+        SELECT
+        <include refid="base_Column"/>
+        FROM `usercompany`
+        WHERE `id`= #{_parameter}
+    </select>
+
+    <update id="updateUserCompany" parameterType="userCompany">
+        UPDATE `usercompany`
+        <trim prefix="set" suffixOverrides=",">
+            id = #{id},
+            <if test="position!=null">`position`=#{position},</if>
+            <if test="score_ceo!=0">`score_ceo`=#{score_ceo},</if>
+            <if test="score_user!=0">`score_user`=#{score_user},</if>
+        </trim>
+        WHERE `id`= #{id}
+    </update>
+</mapper>

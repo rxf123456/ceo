@@ -9,7 +9,6 @@
         <context:include-filter type="annotation"
                                 expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
-    <context:annotation-config/>
     <mvc:default-servlet-handler/>
 
     <!--跨域问题解决-->

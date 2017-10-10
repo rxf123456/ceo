@@ -1,7 +1,5 @@
 package studio.jikewang.action;
 
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -18,7 +16,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/company")
-@Validated
 public class CompanyAction {
     @Autowired
     private CompanyService companyService;
@@ -56,13 +53,9 @@ public class CompanyAction {
 
     @PutMapping("/{id}")
     public Result updateCompany(@PathVariable int id,
-                                @Range(min = 1, max = 7, message = "人数出现问题") Integer number,
-                                @NotEmpty(message = "str") String str,
-                                @NotEmpty(message = "str1") String str1) {
-        Company company = new Company();
+                                @Validated({Update.class})Company company,
+                                Errors errors) {
         company.setId(id);
-        if (number != null)
-            company.setNumber(number);
         companyService.updateCompany(company);
         return ResultUtil.SUCCESS_RESULT;
     }
