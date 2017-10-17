@@ -16,6 +16,8 @@
 
         <!--打印执行的Sql语句和参数-->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
+
+        <setting name="cacheEnabled" value="true" />
     </settings>
     <!--分页拦截器-->
     <plugins>

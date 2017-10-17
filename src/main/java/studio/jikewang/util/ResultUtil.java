@@ -6,7 +6,10 @@ import org.springframework.validation.ObjectError;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author 李文浩
+ * @version 2017/10/2.
+ */
 public class ResultUtil {
 
     public static final Result SUCCESS_RESULT = new Result("1", "success", null);

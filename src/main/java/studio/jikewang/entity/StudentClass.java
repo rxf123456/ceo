@@ -1,20 +1,19 @@
 package studio.jikewang.entity;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * @author 李文浩
  * @version 2017/10/9.
  */
-public class StudentClass {
+public class StudentClass implements Serializable{
 
     private int id;
     private String classId;
-
     private String userId;
-
-    @NotEmpty(message = "CEO职位不为空")
     private String type;
+    private int score;
+    private int teacherScore;
 
     public int getId() {
         return id;
@@ -48,6 +47,22 @@ public class StudentClass {
         this.type = type;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getTeacherScore() {
+        return teacherScore;
+    }
+
+    public void setTeacherScore(int teacherScore) {
+        this.teacherScore = teacherScore;
+    }
+
     @Override
     public String toString() {
         return "StudentClass{" +
@@ -55,6 +70,8 @@ public class StudentClass {
                 ", classId='" + classId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", type='" + type + '\'' +
+                ", score=" + score +
+                ", teacherScore=" + teacherScore +
                 '}';
     }
 }

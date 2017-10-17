@@ -5,11 +5,13 @@ import org.hibernate.validator.constraints.Range;
 import studio.jikewang.util.Insert;
 import studio.jikewang.util.Update;
 
+import java.io.Serializable;
+
 /**
  * @author 李文浩
  * @version 2017/10/2.
  */
-public class Company {
+public class Company implements Serializable {
     int id;
 
     @NotEmpty(message = "公司名不为空", groups = Insert.class)

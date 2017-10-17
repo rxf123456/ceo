@@ -6,12 +6,13 @@ import studio.jikewang.util.Insert;
 import studio.jikewang.util.Update;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * @author 李文浩
  * @version 2017/10/9.
  */
-public class UserCompany {
+public class UserCompany implements Serializable {
 
     private int id;
     @NotNull(message = "公司号不为空", groups = Insert.class)
@@ -22,9 +23,7 @@ public class UserCompany {
     @NotEmpty(message = "职位不为空", groups = Update.class)
     private String position;
     @Range(min = 0, max = 100, message = "你的分数打错了吧", groups = Update.class)
-    private int score_ceo;
-    @Range(min = 0, max = 100, message = "你的分数打错了吧", groups = Update.class)
-    private int score_user;
+    private int score;
 
     public int getId() {
         return id;
@@ -58,19 +57,11 @@ public class UserCompany {
         this.position = position;
     }
 
-    public int getScore_ceo() {
-        return score_ceo;
+    public int getScore() {
+        return score;
     }
 
-    public void setScore_ceo(int score_ceo) {
-        this.score_ceo = score_ceo;
-    }
-
-    public int getScore_user() {
-        return score_user;
-    }
-
-    public void setScore_user(int score_user) {
-        this.score_user = score_user;
+    public void setScore(int score) {
+        this.score = score;
     }
 }

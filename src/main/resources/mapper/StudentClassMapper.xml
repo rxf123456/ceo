@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="studio.jikewang.dao.StudentClassDao">
-
+    <cache type="org.mybatis.caches.memcached.MemcachedCache" />
     <sql id="base_Column">
-        `id`,`class_id`,`user_id`,`type`
+        `id`,`class_id`,`user_id`,`type`,`score`,`teacher_score`
     </sql>
 
     <insert id="saveStudentClass" parameterType="studentClass">
@@ -47,6 +47,8 @@
         <trim prefix="set" suffixOverrides=",">
             id = #{id},
             <if test="type!=null">`type`=#{type},</if>
+            <if test="score!=null">`score`=#{score},</if>
+            <if test="teacherScore!=null">`teacher_score`=#{teacherScore},</if>
         </trim>
         WHERE `id`= #{id}
     </update>

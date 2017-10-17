@@ -20,14 +20,14 @@ import java.util.List;
  * @version 2017/10/2.
  */
 @RestController
-@RequestMapping("/teacherclass")
+@RequestMapping("/teacherclasses")
 public class TeacherClassAction {
     @Autowired
     private TeacherClassService teacherClassService;
 
     @PostMapping("/")
     public Result saveTeacherClass(@Validated({Insert.class}) TeacherClass teacherClass,
-                              Errors errors) {
+                                   Errors errors) {
         teacherClassService.saveTeacherClass(teacherClass);
         return ResultUtil.SUCCESS_RESULT;
     }
@@ -43,13 +43,16 @@ public class TeacherClassAction {
         return ResultUtil.successResult(teacherClassService.getTeacherClass(id));
     }
 
-    @GetMapping("/teacherclasses")
-    public Result listTeacherClasses(Page page, String teacherId) throws Exception {
+    @GetMapping
+    public Result listTeacherClasses(Page page, String teacherId, String userId) throws Exception {
         System.out.println(page);
         if (teacherId == null) {
             throw new ErrorException("老师id不为空");
         } else {
-            page.setObject(teacherId);
+            page.getMap().put("teacherId", teacherId);
+            if (userId != null) {
+                page.getMap().put("userId", userId);
+            }
             List<StudentClass> list = teacherClassService.listStudentClassesByTeacherId(page);
             page.setObject(list);
         }

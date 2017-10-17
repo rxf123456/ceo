@@ -18,12 +18,12 @@ import java.util.List;
  * @version 2017/10/2.
  */
 @RestController
-@RequestMapping("/studentclass")
+@RequestMapping("/studentclasses")
 public class StudentClassAction {
     @Autowired
     private StudentClassService studentClassService;
 
-    @PostMapping("/")
+    @PostMapping
     public Result saveStudentClass(@Validated({Insert.class}) StudentClass studentClass,
                               Errors errors) {
         studentClassService.saveStudentClass(studentClass);
@@ -41,7 +41,7 @@ public class StudentClassAction {
         return ResultUtil.successResult(studentClassService.getStudentClass(id));
     }
 
-    @GetMapping("/studentclasses")
+    @GetMapping
     public Result listStudentClasses(Page page, String classId) {
         System.out.println(page);
         if (classId == null) {

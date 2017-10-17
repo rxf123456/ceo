@@ -2,6 +2,7 @@ package studio.jikewang.exception;
 
 import org.apache.ibatis.binding.BindingException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -39,9 +40,10 @@ public class MyExceptionHandler {
 
     @ExceptionHandler(NullPointerException.class)
     public Result handleNullPointerException(NullPointerException e) {
+        e.printStackTrace();
         Result result = new Result();
         result.setStatus("0");
-        result.setMessage("你传值了吗？没收到啊");
+        result.setMessage("发生空指针异常.");
         return result;
     }
 
@@ -59,6 +61,14 @@ public class MyExceptionHandler {
         Result result = new Result();
         result.setStatus("0");
         result.setMessage("数据库绑定异常");
+        return result;
+    }
+
+    @ExceptionHandler(CannotCreateTransactionException.class)
+    public Result handleCannotCreateTransactionException(CannotCreateTransactionException e) {
+        Result result = new Result();
+        result.setStatus("0");
+        result.setMessage("数据库访问异常,检查数据库配置和数据库状态");
         return result;
     }
 

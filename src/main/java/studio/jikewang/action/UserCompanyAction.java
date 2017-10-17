@@ -15,12 +15,12 @@ import java.util.List;
  * @version 2017/10/2.
  */
 @RestController
-@RequestMapping("/usercompany")
+@RequestMapping("/usercompanies")
 public class UserCompanyAction {
     @Autowired
     private UserCompanyService userCompanyService;
 
-    @PostMapping("/")
+    @PostMapping
     public Result saveUserCompany(@Validated({Insert.class}) UserCompany userCompany,
                                   Errors errors) {
         userCompanyService.saveUserCompany(userCompany);
@@ -38,7 +38,7 @@ public class UserCompanyAction {
         return ResultUtil.successResult(userCompanyService.getUserCompany(id));
     }
 
-    @GetMapping("/usercompanies")
+    @GetMapping
     public Result listUserCompanyes(Page page, String companyId, String userId) {
         System.out.println(page);
         if (companyId == null && userId == null) {

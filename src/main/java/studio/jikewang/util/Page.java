@@ -2,15 +2,21 @@ package studio.jikewang.util;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.HashMap;
+import java.util.Map;
+
+
 /**
  * 分页对应的实体类
+ *
+ * @author 李文浩
+ * @version 2017/10/2.
  */
 public class Page {
 
     /**
      * 总条数
      */
-    @JsonIgnore
     private int totalNumber;
 
     /**
@@ -43,7 +49,15 @@ public class Page {
     @JsonIgnore
     private String orderType = "id";
 
+    /**
+     * 可以用于单个参数查询，也可用于分页返回数据
+     *
+     */
     private Object object;
+
+    //用于多个参数查询,不用于返回数据
+    @JsonIgnore
+    private Map<String, String> map;
 
     public int getTotalNumber() {
         return totalNumber;
@@ -110,6 +124,18 @@ public class Page {
     public void setObject(Object object) {
         this.object = object;
     }
+
+    public Map<String, String> getMap() {
+        if (map == null) {
+            map = new HashMap<String, String>(5);
+        }
+        return map;
+    }
+
+    public void setMap(Map<String, String> map) {
+        this.map = map;
+    }
+
 
     @Override
     public String toString() {

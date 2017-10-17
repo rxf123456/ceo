@@ -13,7 +13,7 @@ import studio.jikewang.util.ResultUtil;
 public class ErrorAction {
 
     @RequestMapping(value = "/error_404")
-    public Result error_404(){
+    public Result error404(){
         return ResultUtil.NOT_FOUND_RESULT;
     }
 }

@@ -1,10 +1,12 @@
 package studio.jikewang.entity;
 
+import java.io.Serializable;
+
 /**
  * @author 李文浩
  * @version 2017/10/10.
  */
-public class TeacherClass {
+public class TeacherClass implements Serializable {
     int id;
     String teacherId;
     String classId;

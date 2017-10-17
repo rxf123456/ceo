@@ -16,7 +16,7 @@ public class JsonUtil {
 
     private static final Logger log = Logger.getLogger(JsonUtil.class);
 
-    final static ObjectMapper objectMapper;
+    private final static ObjectMapper OBJECT_MAPPER;
 
     /**
      * 是否打印美观格式
@@ -27,12 +27,12 @@ public class JsonUtil {
     static {
 //        SerializerProvider sp = new StdSerializerProvider();
 //        sp.setNullValueSerializer(new NullSerializer());
-        objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+        OBJECT_MAPPER = new ObjectMapper();
+        OBJECT_MAPPER.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
     }
 
     public static ObjectMapper getObjectMapper() {
-        return objectMapper;
+        return OBJECT_MAPPER;
     }
 
     /**
@@ -45,9 +45,9 @@ public class JsonUtil {
         String json = null;
         try {
             if (isPretty) {
-                json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
+                json = OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object);
             } else {
-                json = objectMapper.writeValueAsString(object);
+                json = OBJECT_MAPPER.writeValueAsString(object);
             }
         } catch (Exception e) {
             log.warn("json error:" + e.getMessage());
@@ -66,7 +66,7 @@ public class JsonUtil {
     public static <T> T toPOJO(String json, Class<?> c) {
         T t = null;
         try {
-            t = (T) objectMapper.readValue(json, c);
+            t = (T) OBJECT_MAPPER.readValue(json, c);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,7 +74,7 @@ public class JsonUtil {
     }
 
     public static <T> T toPOJO(Map map, Class<T> clazz) {
-        return objectMapper.convertValue(map, clazz);
+        return OBJECT_MAPPER.convertValue(map, clazz);
     }
 
     /**
@@ -91,7 +91,7 @@ public class JsonUtil {
             return null;
         } else {
             try {
-                return (T) objectMapper.readValue(jsonString, tr);
+                return (T) OBJECT_MAPPER.readValue(jsonString, tr);
             } catch (Exception e) {
                 log.warn("json error:" + e.getMessage());
             }
@@ -101,7 +101,7 @@ public class JsonUtil {
 
     public static void prettyPrint(Object object) {
         try {
-            System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object));
+            System.out.println(OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -110,8 +110,8 @@ public class JsonUtil {
     public static void prettyPrint(String json) {
 
         try {
-            Object object = objectMapper.readValue(json, Object.class);
-            System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(object));
+            Object object = OBJECT_MAPPER.readValue(json, Object.class);
+            System.out.println(OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(object));
         } catch (IOException e) {
             System.out.println("字符串无内容");
         }
