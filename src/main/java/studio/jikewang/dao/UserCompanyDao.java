@@ -1,6 +1,8 @@
 package studio.jikewang.dao;
 
 import org.springframework.stereotype.Repository;
+import studio.jikewang.dto.ClassNum;
+import studio.jikewang.dto.UserInfo;
 import studio.jikewang.entity.UserCompany;
 import studio.jikewang.util.Page;
 
@@ -17,13 +19,17 @@ public interface UserCompanyDao {
 
     int deleteUserCompany(int id);
 
-    UserCompany getUserCompany(int id);
+    int deleteAllUserCompany(int companyId);
 
-    List<UserCompany> listUserCompanies(Page page);
+    UserInfo getUserCompany(int id);
 
-    List<UserCompany> listUserCompaniesByCompanyId(Page page);
+    List<UserInfo> listUserCompanies(Page page);
 
-    List<UserCompany> listUserCompaniesByUserId(Page page);
+    List<UserInfo> listUserCompaniesByCompanyId(Page page);
+
+    List<UserInfo> listUserCompaniesByUserId(Page page);
+
+    ClassNum getClassNumByUserId(String userId);
 
     int updateUserCompany(UserCompany userCompany);
 

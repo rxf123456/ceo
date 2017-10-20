@@ -55,7 +55,10 @@ public class Page {
      */
     private Object object;
 
-    //用于多个参数查询,不用于返回数据
+    /**
+     * 用于多个参数查询,不用于返回数据
+     *
+     */
     @JsonIgnore
     private Map<String, String> map;
 

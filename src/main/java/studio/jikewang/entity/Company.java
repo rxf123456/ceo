@@ -12,16 +12,16 @@ import java.io.Serializable;
  * @version 2017/10/2.
  */
 public class Company implements Serializable {
+    private static final long serialVersionUID = -6849794470754667710L;
+    public final static int MAX_NUMBER = 7;
     int id;
-
     @NotEmpty(message = "公司名不为空", groups = Insert.class)
     String name;
-
-    @Range(min = 1 , max = 7, message = "人数出现问题",groups = {Update.class})
-    int number;
-
+    @Range(min = 1, max = 7, message = "人数出现问题", groups = {Update.class})
+    Integer number;
     @Range(min = 0, max = 100, message = "你的分数打错了吧", groups = Update.class)
-    int score;
+    Integer score;
+    Integer isScored;
 
     public int getId() {
         return id;
@@ -39,19 +39,29 @@ public class Company implements Serializable {
         this.name = name;
     }
 
-    public int getNumber() {
-        return number;
-    }
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public int getScore() {
+    public Integer getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public Integer getIsScored() {
+        return isScored;
+    }
+
+    public void setIsScored(Integer isScored) {
+        this.isScored = isScored;
+    }
 }
+

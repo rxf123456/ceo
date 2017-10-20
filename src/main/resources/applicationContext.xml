@@ -31,7 +31,7 @@
         <!-- 配置MyBaties全局配置文件:mybatis-config.xml -->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <!--配置别名-->
-        <property name="typeAliasesPackage" value="studio.jikewang.entity,studio.jikewang.util"/>
+        <property name="typeAliasesPackage" value="studio.jikewang.entity,studio.jikewang.util,studio.jikewang.dto"/>
     </bean>
 
     <!-- 扫描dao接口包，动态实现dao接口，注入到spring容器中 -->
@@ -59,10 +59,6 @@
             <tx:method name="get*" propagation="REQUIRED" read-only="true"/>
             <tx:method name="list*" propagation="REQUIRED" read-only="true"/>
             <tx:method name="update*" propagation="REQUIRED"/>
-            <tx:method name="select*" read-only="true"/>
-            <tx:method name="writeInfo" propagation="SUPPORTS"/>
-            <!--写入学生信息和创建签到在同一事务中运行-->
-            <tx:method name="*"/>
         </tx:attributes>
     </tx:advice>
     <!-- 配置aop切面 -->

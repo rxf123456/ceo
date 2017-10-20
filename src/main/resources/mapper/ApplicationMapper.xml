@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="studio.jikewang.dao.ApplicationDao">
+    <!--<cache type="org.mybatis.caches.memcached.LoggingMemcachedCache"/>-->
+    <sql id="base_Column">
+        `id`,`user_id`, `company_id`, `create_time`, `modified_time`, `grade`
+    </sql>
+
+    <insert id="saveApplication" parameterType="application">
+INSERT INTO `application`(`user_id`, `company_id`, `create_time`, `modified_time`, `grade`)
+VALUES ( #{userId}, #{companyId}, #{createTime}, #{modifiedTime}, #{grade} )
+    </insert>
+
+    <insert id="saveApplicationBatch" parameterType="java.util.List">
+        INSERT INTO `application`(`user_id`, `company_id`, `create_time`, `modified_time`, `grade`)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.userId},
+            #{item.companyId},
+            #{item.createTime},
+            #{item.modifiedTime},
+            #{item.grade}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteApplication" parameterType="List">
+        DELETE FROM `application` WHERE `id` = #{_parameter}
+    </delete>
+
+    <delete id="deleteApplicationBatch" parameterType="int">
+        DELETE FROM `application` WHERE `id` IN
+        <foreach collection="list" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </delete>
+
+    <select id="listApplications" parameterType="page" resultType="application">
+        SELECT
+        <include refid="base_Column"/>
+        FROM `application`
+    </select>
+
+    <select id="listApplicationsByCompanyId" parameterType="page" resultType="application">
+        SELECT
+        <include refid="base_Column"/>
+        FROM `application` WHERE `company_id` = #{object}
+    </select>
+
+    <select id="listApplicationsByUserId" parameterType="page" resultType="userApplication">
+ SELECT `application`.`id`,
+        `application`.`user_id`,
+         `application`.`company_id`,
+         `application`.`create_time`,
+         `application`.`modified_time`,
+         `application`.`grade`,
+         company.`name` AS company_name,
+        company.`number`
+FROM `application`,`company`
+WHERE `application`.company_id=`company`.id
+        AND `user_id` =  #{object}
+    </select>
+
+    <select id="getApplication" parameterType="int" resultType="application">
+        SELECT
+        <include refid="base_Column"/>
+        FROM `application` WHERE `id` = #{_parameter}
+    </select>
+
+    <update id="updateApplication" parameterType="application">
+        UPDATE `application`
+        <trim prefix="set" suffixOverrides=",">
+            id = #{id},
+            <if test="modifiedTime!=null">``modified_time``=#{modifiedTime},</if>
+        </trim>
+        WHERE `id`= #{id}
+    </update>
+</mapper>

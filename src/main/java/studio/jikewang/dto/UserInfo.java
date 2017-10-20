@@ -1,29 +1,18 @@
-package studio.jikewang.entity;
-
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.Range;
-import studio.jikewang.util.Insert;
-
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+package studio.jikewang.dto;
 
 /**
  * @author 李文浩
- * @version 2017/10/9.
+ * @version 2017/10/19.
  */
-public class UserCompany implements Serializable {
-    private static final long serialVersionUID = -6849794470754667710L;
-
+public class UserInfo {
     private int id;
-    @NotNull(message = "公司号不为空", groups = Insert.class)
     private Integer companyId;
-    @NotEmpty(message = "学号不为空", groups = Insert.class)
     private String userId;
-
-    @NotEmpty(message = "职位不为空")
     private String position;
-    @Range(min = 0, max = 100, message = "你的分数打错了吧")
     private Double score;
+    String companyName;
+    Integer number;
+    Integer isScored;
 
     public int getId() {
         return id;
@@ -63,5 +52,29 @@ public class UserCompany implements Serializable {
 
     public void setScore(Double score) {
         this.score = score;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public Integer getIsScored() {
+        return isScored;
+    }
+
+    public void setIsScored(Integer isScored) {
+        this.isScored = isScored;
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import studio.jikewang.dto.UserInfo;
 import studio.jikewang.entity.UserCompany;
 import studio.jikewang.service.UserCompanyService;
 import studio.jikewang.util.*;
@@ -46,11 +47,11 @@ public class UserCompanyAction {
         } else {
             if (userId == null) {
                 page.setObject(companyId);
-                List<UserCompany> list = userCompanyService.listUserCompaniesByCompanyId(page);
+                List<UserInfo> list = userCompanyService.listUserCompaniesByCompanyId(page);
                 page.setObject(list);
             } else {
                 page.setObject(userId);
-                List<UserCompany> list = userCompanyService.listUserCompaniesByUserId(page);
+                List<UserInfo> list = userCompanyService.listUserCompaniesByUserId(page);
                 page.setObject(list);
             }
         }
@@ -63,7 +64,10 @@ public class UserCompanyAction {
                                     Errors errors) {
         userCompany.setId(id);
         System.out.println(userCompany);
+
         userCompanyService.updateUserCompany(userCompany);
         return ResultUtil.SUCCESS_RESULT;
     }
+
+
 }

@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @version 2017/10/9.
  */
 public class StudentClass implements Serializable{
-
+    private static final long serialVersionUID = -6849794470754667710L;
     private int id;
     private String classId;
     private String userId;

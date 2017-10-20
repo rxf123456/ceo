@@ -6,6 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import studio.jikewang.entity.Company;
+import studio.jikewang.exception.ErrorException;
 import studio.jikewang.service.CompanyService;
 import studio.jikewang.util.*;
 
@@ -25,7 +26,7 @@ public class CompanyAction {
     public Result saveCompany(@Validated({Insert.class}) Company company,
                               @Validated @NotEmpty String userId,
                               Errors errors) {
-        companyService.saveCompany(company,userId);
+        companyService.saveCompany(company, userId);
         return ResultUtil.SUCCESS_RESULT;
     }
 
@@ -55,9 +56,13 @@ public class CompanyAction {
 
     @PutMapping("/{id}")
     public Result updateCompany(@PathVariable int id,
-                                @Validated({Update.class})Company company,
-                                Errors errors) {
+                                Company company) {
         company.setId(id);
+        if (company.getIsScored() != null) {
+            if (company.getIsScored() != 1) {
+                throw new ErrorException("你只可以关闭别人加入公司，然后开始打分");
+            }
+        }
         companyService.updateCompany(company);
         return ResultUtil.SUCCESS_RESULT;
     }

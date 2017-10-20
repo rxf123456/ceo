@@ -26,4 +26,7 @@ public interface CompanyDao {
 
     int updateCompany(Company company);
 
+    int numberPlusOne(int companyId);
+
+    int numberMinusOne(int companyId);
 }
