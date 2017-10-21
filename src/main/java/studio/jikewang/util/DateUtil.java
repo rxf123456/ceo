@@ -7,7 +7,7 @@ import java.util.Date;
  * @version 2017/4/22.
  */
 public class DateUtil {
-    public static boolean notDeadline(Date now, Date date) {
+    public static boolean isCanAcceptApplication(Date now, Date date) {
         if (now.compareTo(date) == 0) {
             return true;
         }
@@ -19,4 +19,6 @@ public class DateUtil {
         }
         return false;
     }
+
+
 }

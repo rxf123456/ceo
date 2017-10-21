@@ -14,22 +14,69 @@ import java.util.List;
 @Repository
 public interface ApplicationDao {
 
-    int saveApplication(Application application);
-
+    /**
+     * 学生申请公司
+     *
+     * @param applications
+     * @return
+     */
     int saveApplicationBatch(List<Application> applications);
 
+    /**
+     * 删除某条申请
+     *
+     * @param id
+     * @return
+     */
     int deleteApplication(int id);
 
-    int deleteApplicationBatch(List<Integer> ids);
+    /**
+     * 有公司CEO已经接受这个学生的申请，删除这个学生的所有申请
+     *
+     * @param userId
+     * @return
+     */
+    int deleteApplicationByUserId(String userId);
 
-    Application getApplication(int id);
 
+    /**
+     * 通过id得到某条具体的申请信息
+     *
+     * @param userId
+     * @return
+     */
+    Application getApplication(int userId);
+
+    /**
+     * CEO查看申请的所有学生及其志愿级别
+     *
+     * @param page
+     * @return
+     */
     List<Application> listApplicationsByCompanyId(Page page);
 
+    /**
+     * 学生查看申请的所有公司信息
+     *
+     * @param page
+     * @return
+     */
     List<Application> listApplicationsByUserId(Page page);
 
+    /**
+     * 所有申请信息
+     *
+     * @param page
+     * @return
+     */
     List<Application> listApplications(Page page);
 
-    int updateApplication(Application application);
+    /**
+     * 公司CEO拒绝某个学生的申请
+     *
+     * @param userId
+     * @return
+     */
+    int updateApplication(String userId);
 
 }

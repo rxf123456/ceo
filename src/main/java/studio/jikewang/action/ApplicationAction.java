@@ -22,6 +22,13 @@ public class ApplicationAction {
     @Autowired
     private ApplicationService applicationService;
 
+    /**
+     * 学生提交多个公司的申请
+     *
+     * @param applications
+     * @param errors
+     * @return
+     */
     @PostMapping(consumes = "application/json")
     public Result saveApplicationBatch(@RequestBody List<Application> applications,
                                        Errors errors) {
@@ -29,25 +36,38 @@ public class ApplicationAction {
         return ResultUtil.SUCCESS_RESULT;
     }
 
+    /**
+     *
+     * 公司CEO接受某个学生的申请
+     *
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}")
     public Result deleteApplication(@PathVariable int id) {
         applicationService.deleteApplication(id);
         return ResultUtil.SUCCESS_RESULT;
     }
 
-    @DeleteMapping
-    public Result deleteApplicationBatch(@PathVariable int id) {
-        applicationService.deleteApplication(id);
-        return ResultUtil.SUCCESS_RESULT;
-    }
-
+    /**
+     * 通过id得到某条具体的申请信息
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public Result getApplication(@PathVariable int id) {
         return ResultUtil.successResult(applicationService.getApplication(id));
     }
 
+    /**
+     * 所有申请信息
+     * @param page 分页
+     * @param companyId CEO查看申请的所有学生及其志愿级别
+     * @param userId 学生查看申请的所有公司信息
+     * @return
+     */
     @GetMapping
-    public Result listApplicationsByCompanyId(Page page,String companyId, String userId) {
+    public Result listApplicationsByCompanyId(Page page, String companyId, String userId) {
         if (companyId == null && userId == null) {
             page.setObject(applicationService.listApplications(page));
         } else {
@@ -64,11 +84,15 @@ public class ApplicationAction {
         return ResultUtil.successResult(page);
     }
 
+    /**
+     * 公司CEO拒绝某个学生的申请
+     * @param id
+     * @param id
+     * @return
+     */
     @PutMapping("/{id}")
-    public Result updateApplication(@PathVariable int id,
-                                    Application application) {
-        application.setId(id);
-        applicationService.updateApplication(application);
+    public Result updateApplication(@PathVariable int id) {
+        applicationService.updateApplication(id);
         return ResultUtil.SUCCESS_RESULT;
     }
 }

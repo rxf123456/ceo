@@ -14,23 +14,67 @@ import java.util.List;
  */
 @Repository
 public interface UserCompanyDao {
-
+    /**
+     *公司增加成员
+     * @param userCompany
+     * @return
+     */
     int saveUserCompany(UserCompany userCompany);
 
+    /**
+     *删除公司成员
+     * @param id
+     * @return
+     */
     int deleteUserCompany(int id);
 
+    /**
+     *删除公司所有成员
+     * @param companyId
+     * @return
+     */
     int deleteAllUserCompany(int companyId);
 
+    /**
+     * 得到单个公司成员信息
+     * @param id
+     * @return
+     */
     UserInfo getUserCompany(int id);
 
+    /**
+     *查看所有成员
+     * @param page
+     * @return
+     */
     List<UserInfo> listUserCompanies(Page page);
 
+    /**
+     *公司查看所有成员
+     * @param page
+     * @return
+     */
     List<UserInfo> listUserCompaniesByCompanyId(Page page);
 
+    /**
+     *学生查看公司信息-通过判断isScored属性来开启打分按钮
+     * @param page
+     * @return
+     */
     List<UserInfo> listUserCompaniesByUserId(Page page);
 
+    /**
+     * 得到公司现有的每个班级的人数
+     * @param userId
+     * @return
+     */
     ClassNum getClassNumByUserId(String userId);
 
+    /**
+     *公司成员信息更新
+     * @param userCompany
+     * @return
+     */
     int updateUserCompany(UserCompany userCompany);
 
 

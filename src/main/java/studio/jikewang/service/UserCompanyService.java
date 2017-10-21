@@ -31,11 +31,13 @@ public class UserCompanyService {
     @Autowired
     private CompanyDao companyDao;
 
+    /**
+     * 公司增加成员
+     * @param userCompany
+     */
     public void saveUserCompany(UserCompany userCompany) {
         String userId = userCompany.getUserId();
         ClassNum classNum = userCompanyDao.getClassNumByUserId(userId);
-        System.out.println(classNum);
-        System.out.println(classNum.getNum());
         if (classNum.getNum() >= CLASS_NUM) {
             throw new ErrorException(classNum.getCls() + "班已经有了3个人，不能再加入了，请叫他加入别的公司");
         }
@@ -47,6 +49,10 @@ public class UserCompanyService {
         companyDao.numberPlusOne(companyId);
     }
 
+    /**
+     * 删除公司成员
+     * @param id
+     */
     public void deleteUserCompany(int id) {
         UserInfo userCompany = getUserCompany(id);
         int companyId = userCompany.getCompanyId();
@@ -59,22 +65,46 @@ public class UserCompanyService {
         }
     }
 
+    /**
+     * 得到单个公司成员信息
+     * @param id
+     * @return
+     */
     public UserInfo getUserCompany(int id) {
         return userCompanyDao.getUserCompany(id);
     }
 
+    /**
+     * 查看所有成员
+     * @param page
+     * @return
+     */
     public List<UserInfo> listUserCompanies(Page page) {
         return userCompanyDao.listUserCompanies(page);
     }
 
+    /**
+     * 公司查看所有成员
+     * @param page
+     * @return
+     */
     public List<UserInfo> listUserCompaniesByCompanyId(Page page) {
         return userCompanyDao.listUserCompaniesByCompanyId(page);
     }
 
+    /**
+     * 学生查看公司信息-通过判断isScored属性来开启打分按钮
+     * @param page
+     * @return
+     */
     public List<UserInfo> listUserCompaniesByUserId(Page page) {
         return userCompanyDao.listUserCompaniesByUserId(page);
     }
 
+    /**
+     * 公司成员信息更新
+     * @param userCompany
+     */
     public void updateUserCompany(UserCompany userCompany) {
         int num = getUserCompany(userCompany.getId()).getNumber();
         userCompany.setScore(userCompany.getScore() / num);

@@ -4,16 +4,16 @@
 <mapper namespace="studio.jikewang.dao.ApplicationDao">
     <!--<cache type="org.mybatis.caches.memcached.LoggingMemcachedCache"/>-->
     <sql id="base_Column">
-        `id`,`user_id`, `company_id`, `create_time`, `modified_time`, `grade`
+        `id`,`user_id`, `company_id`, `create_time`, `modified_time`, `grade`,`calculated_grade`
     </sql>
 
     <insert id="saveApplication" parameterType="application">
 INSERT INTO `application`(`user_id`, `company_id`, `create_time`, `modified_time`, `grade`)
-VALUES ( #{userId}, #{companyId}, #{createTime}, #{modifiedTime}, #{grade} )
+VALUES ( #{userId}, #{companyId}, #{createTime}, #{modifiedTime}, #{grade},, #{grade} )
     </insert>
 
     <insert id="saveApplicationBatch" parameterType="java.util.List">
-        INSERT INTO `application`(`user_id`, `company_id`, `create_time`, `modified_time`, `grade`)
+        INSERT INTO `application`(`user_id`, `company_id`, `create_time`, `modified_time`, `grade`,`calculated_grade`)
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
             (
@@ -21,16 +21,20 @@ VALUES ( #{userId}, #{companyId}, #{createTime}, #{modifiedTime}, #{grade} )
             #{item.companyId},
             #{item.createTime},
             #{item.modifiedTime},
+            #{item.grade},
             #{item.grade}
             )
         </foreach>
     </insert>
 
-    <delete id="deleteApplication" parameterType="List">
+    <delete id="deleteApplicationByUserId" parameterType="String">
+        DELETE FROM `application` WHERE `user_id` = #{_parameter}
+    </delete>
+    <delete id="deleteApplication" parameterType="int">
         DELETE FROM `application` WHERE `id` = #{_parameter}
     </delete>
 
-    <delete id="deleteApplicationBatch" parameterType="int">
+    <delete id="deleteApplicationBatch" parameterType="List">
         DELETE FROM `application` WHERE `id` IN
         <foreach collection="list" item="item" separator=",">
             #{item}
@@ -57,6 +61,7 @@ VALUES ( #{userId}, #{companyId}, #{createTime}, #{modifiedTime}, #{grade} )
          `application`.`create_time`,
          `application`.`modified_time`,
          `application`.`grade`,
+         `application`.`calculated_grade`,
          company.`name` AS company_name,
         company.`number`
 FROM `application`,`company`
@@ -70,12 +75,8 @@ WHERE `application`.company_id=`company`.id
         FROM `application` WHERE `id` = #{_parameter}
     </select>
 
-    <update id="updateApplication" parameterType="application">
-        UPDATE `application`
-        <trim prefix="set" suffixOverrides=",">
-            id = #{id},
-            <if test="modifiedTime!=null">``modified_time``=#{modifiedTime},</if>
-        </trim>
-        WHERE `id`= #{id}
+    <update id="updateApplication" parameterType="String">
+UPDATE `application` SET `modified_time` = NOW(), `calculated_grade` = `calculated_grade` - 1
+WHERE `user_id` = #{_parameter}
     </update>
 </mapper>

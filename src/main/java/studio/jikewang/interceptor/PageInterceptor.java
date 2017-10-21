@@ -16,14 +16,14 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 /**
- *
  * @author 李文浩
  * @version 2017/10/2.
  */
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
 public class PageInterceptor implements Interceptor {
 
-    private final static String INTERCEPTOR_METHOD =".+list.+";
+    private final static String INTERCEPTOR_METHOD = ".+list.+";
+
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
         StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
@@ -37,10 +37,12 @@ public class PageInterceptor implements Interceptor {
         // 原始的SQL语句
         String sql = boundSql.getSql();
         if (id.matches(INTERCEPTOR_METHOD)) {
-            System.out.println("启动Mybatis分页拦截器");
+            // 原始的SQL语句
 //            BoundSql boundSql = statementHandler.getBoundSql();
-//            // 原始的SQL语句
 //            String sql = boundSql.getSql();
+            System.out.println("启动Mybatis分页拦截器");
+
+
             // 查询总条数的SQL语句
             String countSql = "select count(*) from (" + sql + ") a";
             Connection connection = (Connection) invocation.getArgs()[0];
@@ -65,6 +67,7 @@ public class PageInterceptor implements Interceptor {
     public Object plugin(Object target) {
         return Plugin.wrap(target, this);
     }
+
     @Override
     public void setProperties(Properties properties) {
         System.out.println(properties.get("parameterInterceptor"));

@@ -29,6 +29,11 @@ public class CompanyService {
     @Autowired
     private StudentClassDao studentClassDao;
 
+    /**
+     * 创建公司
+     * @param company
+     * @param userId
+     */
     public void saveCompany(Company company, String userId) {
 
         if (studentClassDao.getStudentClassByUserId(userId) == null) {
@@ -49,24 +54,48 @@ public class CompanyService {
 
     }
 
+    /**
+     * 删除公司
+     * @param id
+     */
     public void deleteCompany(int id) {
         if (companyDao.deleteCompany(id) == 0) {
             throw new ErrorException("没有这个公司");
         }
+        userCompanyDao.deleteAllUserCompany(id);
     }
 
+    /**
+     * 得到单个公司
+     * @param id
+     * @return
+     */
     public Company getCompany(int id) {
         return companyDao.getCompany(id);
     }
 
+    /**
+     * 查询公司名
+     * @param page
+     * @return
+     */
     public List<Company> listCompaniesByName(Page page) {
         return companyDao.listCompaniesByName(page);
     }
 
+    /**
+     * 所有公司
+     * @param page
+     * @return
+     */
     public List<Company> listCompanies(Page page) {
         return companyDao.listCompanies(page);
     }
 
+    /**
+     *更新公司
+     * @param company
+     */
     public void updateCompany(Company company) {
         companyDao.updateCompany(company);
     }
