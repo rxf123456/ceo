@@ -14,6 +14,12 @@ import java.io.Serializable;
 public class Company implements Serializable {
     private static final long serialVersionUID = -6849794470754667710L;
     public final static int MAX_NUMBER = 7;
+    /**
+     * 在这个公司的每个班的最多人数,防止一个寝室的都选一个公司
+     */
+    public final static int CLASS_NUM = 3;
+
+    public final static String CEO = "CEO";
     int id;
     @NotEmpty(message = "公司名不为空", groups = Insert.class)
     String name;

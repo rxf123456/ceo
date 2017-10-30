@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import studio.jikewang.entity.StudentClass;
+import studio.jikewang.dto.StudentClass;
 import studio.jikewang.service.StudentClassService;
 import studio.jikewang.util.Insert;
 import studio.jikewang.util.Page;
@@ -25,7 +25,7 @@ public class StudentClassAction {
 
     @PostMapping
     public Result saveStudentClass(@Validated({Insert.class}) StudentClass studentClass,
-                              Errors errors) {
+                                   Errors errors) {
         studentClassService.saveStudentClass(studentClass);
         return ResultUtil.SUCCESS_RESULT;
     }
@@ -42,14 +42,18 @@ public class StudentClassAction {
     }
 
     @GetMapping
-    public Result listStudentClasses(Page page, String classId) {
+    public Result listStudentClasses(Page page, String classId, String userId) {
         System.out.println(page);
-        if (classId == null) {
+        if (classId == null && userId == null) {
             page.setObject(studentClassService.listStudentClasses(page));
         } else {
-            page.setObject(classId);
-            List<StudentClass> list = studentClassService.listStudentClassesByClassId(page);
-            page.setObject(list);
+            if (userId == null) {
+                page.setObject(classId);
+                List<StudentClass> list = studentClassService.listStudentClassesByClassId(page);
+                page.setObject(list);
+            } else {
+                return ResultUtil.successResult(studentClassService.getStudentClassByUserId(userId));
+            }
         }
         return ResultUtil.successResult(page);
     }

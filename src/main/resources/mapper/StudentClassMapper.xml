@@ -6,6 +6,12 @@
     <sql id="base_Column">
         `id`,`class_id`,`user_id`,`type`,`score`,`teacher_score`
     </sql>
+    <sql id="base_query">
+       SELECT `studentclass`.`id`,`studentclass`.`class_id`,`studentclass`.`user_id`,`studentclass`.`type`,`studentclass`.`score`,
+`studentclass`.`teacher_score`,`user`.`userName`
+FROM `studentclass`, `user`
+WHERE `user`.`userId` = `studentclass`.`user_id`
+    </sql>
 
     <insert id="saveStudentClass" parameterType="studentClass">
         INSERT INTO `studentclass`(`class_id`,`user_id`)
@@ -17,29 +23,22 @@
     </delete>
 
     <select id="listStudentClasses" parameterType="page" resultType="studentClass">
-        SELECT
-        <include refid="base_Column"/>
-        FROM `studentclass`
+        <include refid="base_query"/>
     </select>
 
     <select id="listStudentClassesByClassId" parameterType="page" resultType="studentClass">
-        SELECT
-        <include refid="base_Column"/>
-        FROM `studentclass` WHERE `class_id` LIKE #{object}"%"
+        <include refid="base_query"/>
+        AND `studentclass`.`class_id` = #{object}
     </select>
 
     <select id="getStudentClass" parameterType="int" resultType="studentClass">
-        SELECT
-        <include refid="base_Column"/>
-        FROM `studentclass`
-        WHERE `id`= #{_parameter}
+        <include refid="base_query"/>
+        AND `studentclass`.`id`= #{_parameter}
     </select>
 
     <select id="getStudentClassByUserId" parameterType="String" resultType="studentClass">
-        SELECT
-        <include refid="base_Column"/>
-        FROM `studentclass`
-        WHERE `user_id`= #{_parameter}
+        <include refid="base_query"/>
+        AND `studentclass`.`user_id`= #{_parameter}
     </select>
 
     <update id="updateStudentClass" parameterType="studentClass">

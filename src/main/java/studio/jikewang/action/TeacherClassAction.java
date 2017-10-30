@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import studio.jikewang.entity.StudentClass;
+import studio.jikewang.dto.StudentClass;
 import studio.jikewang.entity.TeacherClass;
 import studio.jikewang.exception.ErrorException;
 import studio.jikewang.service.TeacherClassService;
@@ -44,7 +44,7 @@ public class TeacherClassAction {
     }
 
     @GetMapping
-    public Result listTeacherClasses(Page page, String teacherId, String userId) throws Exception {
+    public Result listTeacherClasses(Page page, String teacherId, String userId, String userName) throws Exception {
         System.out.println(page);
         if (teacherId == null) {
             throw new ErrorException("老师id不为空");
@@ -52,6 +52,9 @@ public class TeacherClassAction {
             page.getMap().put("teacherId", teacherId);
             if (userId != null) {
                 page.getMap().put("userId", userId);
+            }
+            if (userName != null) {
+                page.getMap().put("userName", userName);
             }
             List<StudentClass> list = teacherClassService.listStudentClassesByTeacherId(page);
             page.setObject(list);

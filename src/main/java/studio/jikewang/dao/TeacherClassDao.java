@@ -2,7 +2,7 @@ package studio.jikewang.dao;
 
 import org.springframework.stereotype.Repository;
 import studio.jikewang.entity.Company;
-import studio.jikewang.entity.StudentClass;
+import studio.jikewang.dto.StudentClass;
 import studio.jikewang.entity.TeacherClass;
 import studio.jikewang.util.Page;
 

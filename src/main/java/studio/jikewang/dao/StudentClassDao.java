@@ -1,7 +1,7 @@
 package studio.jikewang.dao;
 
 import org.springframework.stereotype.Repository;
-import studio.jikewang.entity.StudentClass;
+import studio.jikewang.dto.StudentClass;
 import studio.jikewang.util.Page;
 
 import java.util.List;

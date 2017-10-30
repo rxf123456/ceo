@@ -3,7 +3,7 @@ package studio.jikewang.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import studio.jikewang.dao.StudentClassDao;
-import studio.jikewang.entity.StudentClass;
+import studio.jikewang.dto.StudentClass;
 import studio.jikewang.util.Page;
 
 import java.util.List;
@@ -35,8 +35,8 @@ public class StudentClassService {
         return studentClassDao.getStudentClass(id);
     }
 
-    public StudentClass getStudentClassByUserId(int id) {
-        return studentClassDao.getStudentClass(id);
+    public StudentClass getStudentClassByUserId(String id) {
+        return studentClassDao.getStudentClassByUserId(id);
     }
 
     public List<StudentClass> listStudentClasses(Page page) {

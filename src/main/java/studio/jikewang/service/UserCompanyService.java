@@ -4,14 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import studio.jikewang.dao.CompanyDao;
 import studio.jikewang.dao.UserCompanyDao;
-import studio.jikewang.dto.ClassNum;
 import studio.jikewang.dto.UserInfo;
-import studio.jikewang.entity.Company;
 import studio.jikewang.entity.UserCompany;
-import studio.jikewang.exception.ErrorException;
 import studio.jikewang.util.Page;
 
 import java.util.List;
+
+import static studio.jikewang.entity.Company.CEO;
 
 /**
  * @author 李文浩
@@ -20,11 +19,7 @@ import java.util.List;
 
 @Service
 public class UserCompanyService {
-    /**
-     * 在这个公司的每个班的最多人数,防止一个寝室的都选一个公司
-     */
-    private final static int CLASS_NUM = 3;
-    private final static String CEO = "CEO";
+
     @Autowired
     private UserCompanyDao userCompanyDao;
 
@@ -33,24 +28,17 @@ public class UserCompanyService {
 
     /**
      * 公司增加成员
+     *
      * @param userCompany
      */
     public void saveUserCompany(UserCompany userCompany) {
-        String userId = userCompany.getUserId();
-        ClassNum classNum = userCompanyDao.getClassNumByUserId(userId);
-        if (classNum.getNum() >= CLASS_NUM) {
-            throw new ErrorException(classNum.getCls() + "班已经有了3个人，不能再加入了，请叫他加入别的公司");
-        }
-        int companyId = userCompany.getCompanyId();
-        if (companyDao.getCompany(companyId).getNumber() >= Company.MAX_NUMBER) {
-            throw new ErrorException("你的公司已经有了" + Company.MAX_NUMBER + "个人了,不能在加入");
-        }
         userCompanyDao.saveUserCompany(userCompany);
-        companyDao.numberPlusOne(companyId);
+        companyDao.numberPlusOne(userCompany.getCompanyId());
     }
 
     /**
      * 删除公司成员
+     *
      * @param id
      */
     public void deleteUserCompany(int id) {
@@ -67,6 +55,7 @@ public class UserCompanyService {
 
     /**
      * 得到单个公司成员信息
+     *
      * @param id
      * @return
      */
@@ -76,6 +65,7 @@ public class UserCompanyService {
 
     /**
      * 查看所有成员
+     *
      * @param page
      * @return
      */
@@ -85,6 +75,7 @@ public class UserCompanyService {
 
     /**
      * 公司查看所有成员
+     *
      * @param page
      * @return
      */
@@ -94,6 +85,7 @@ public class UserCompanyService {
 
     /**
      * 学生查看公司信息-通过判断isScored属性来开启打分按钮
+     *
      * @param page
      * @return
      */
@@ -103,6 +95,7 @@ public class UserCompanyService {
 
     /**
      * 公司成员信息更新
+     *
      * @param userCompany
      */
     public void updateUserCompany(UserCompany userCompany) {

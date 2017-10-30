@@ -23,9 +23,13 @@
     </select>
 
     <select id="listStudentClassesByTeacherId" parameterType="page" resultType="studentClass">
-SELECT `id`,`user_id`,`type`,`class_id` FROM `studentclass`
-WHERE `class_id` = (SELECT `class_id` FROM `teacherclass` WHERE `teacher_id` = #{map.teacherId})
-        <if test="map.userId!=null">AND `user_id` LIKE #{map.userId}"%"</if>
+        SELECT `studentclass`.`id`,`studentclass`.`user_id`,`studentclass`.`type`,`studentclass`.`class_id`,
+        `user`.userName,`user`.cls
+        FROM `studentclass`,`teacherclass`,`user` WHERE `teacherclass`.`class_id` = `studentclass`.`class_id`
+        AND `user`.userId = `studentclass`.user_id
+        AND `teacher_id` = #{map.teacherId}
+        <if test="map.userId!=null">AND `studentclass`.`user_id` LIKE #{map.userId}"%"</if>
+        <if test="map.userName!=null">AND `user`.userName LIKE #{map.userName}"%"</if>
 
     </select>
 

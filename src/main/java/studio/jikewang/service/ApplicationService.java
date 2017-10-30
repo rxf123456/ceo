@@ -3,7 +3,11 @@ package studio.jikewang.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import studio.jikewang.dao.ApplicationDao;
+import studio.jikewang.dao.CompanyDao;
+import studio.jikewang.dao.UserCompanyDao;
+import studio.jikewang.dto.ClassNum;
 import studio.jikewang.entity.Application;
+import studio.jikewang.entity.Company;
 import studio.jikewang.entity.UserCompany;
 import studio.jikewang.exception.ErrorException;
 import studio.jikewang.util.Page;
@@ -27,12 +31,29 @@ public class ApplicationService {
     @Autowired
     private UserCompanyService userCompanyService;
 
+    @Autowired
+    private UserCompanyDao userCompanyDao;
+
+    @Autowired
+    private CompanyDao companyDao;
+
     /**
      * 学生申请公司
      *
      * @param applications
      */
     public void saveApplicationBatch(List<Application> applications) {
+        for (Application application : applications) {
+            Company compnay = companyDao.getCompany(application.getCompanyId());
+            if (compnay.getNumber() >= Company.MAX_NUMBER) {
+                throw new ErrorException(compnay.getName() + "已经有了7个人了,你不能提交这次申请");
+            }
+            String userId = application.getUserId();
+            ClassNum classNum = userCompanyDao.getClassNumByUserId(userId);
+            if (classNum.getNum() >= Company.CLASS_NUM) {
+                throw new ErrorException("在" + compnay.getName() + "公司中" + classNum.getCls() + "班已经有了3个人，你不能提交这次申请");
+            }
+        }
         applicationDao.saveApplicationBatch(applications);
     }
 

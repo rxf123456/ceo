@@ -4,7 +4,7 @@
 <mapper namespace="studio.jikewang.dao.CompanyDao">
     <!--<cache type="org.mybatis.caches.memcached.MemcachedCache"/>-->
     <sql id="base_Column">
-        `id`,`name`,`number`,`score`,`create_time`
+        `id`,`name`,`number`,`score`,`create_time`,`is_scored`
     </sql>
 
     <insert id="saveCompany" parameterType="company" keyProperty="id">
@@ -40,9 +40,9 @@
         <trim prefix="set" suffixOverrides=",">
             id = #{id},
             <if test="name!=null">`name`=#{name},</if>
-            <if test="number!=0">`number`=#{number},</if>
-            <if test="score!=0">`score`=#{score},</if>
-            <if test="isScored!=0">`is_scored`=#{isScored}</if>
+            <if test="number!=null">`number`=#{number},</if>
+            <if test="score!=null">`score`=#{score},</if>
+            <if test="isScored!=null">`is_scored`=#{isScored}</if>
         </trim>
         WHERE `id`= #{id}
     </update>

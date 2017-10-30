@@ -9,7 +9,7 @@
 
     <insert id="saveApplication" parameterType="application">
 INSERT INTO `application`(`user_id`, `company_id`, `create_time`, `modified_time`, `grade`)
-VALUES ( #{userId}, #{companyId}, #{createTime}, #{modifiedTime}, #{grade},, #{grade} )
+VALUES ( #{userId}, #{companyId}, NOW(), NOW(), #{grade}, #{grade} )
     </insert>
 
     <insert id="saveApplicationBatch" parameterType="java.util.List">
@@ -19,8 +19,8 @@ VALUES ( #{userId}, #{companyId}, #{createTime}, #{modifiedTime}, #{grade},, #{g
             (
             #{item.userId},
             #{item.companyId},
-            #{item.createTime},
-            #{item.modifiedTime},
+            NOW(),
+            NOW(),
             #{item.grade},
             #{item.grade}
             )

@@ -8,11 +8,13 @@ public class UserInfo {
     private int id;
     private Integer companyId;
     private String userId;
+    private String cls;
+    private String userName;
     private String position;
     private Double score;
-    String companyName;
-    Integer number;
-    Integer isScored;
+    private String companyName;
+    private Integer number;
+    private Integer isScored;
 
     public int getId() {
         return id;
@@ -32,6 +34,22 @@ public class UserInfo {
 
     public String getUserId() {
         return userId;
+    }
+
+    public String getCls() {
+        return cls;
+    }
+
+    public void setCls(String cls) {
+        this.cls = cls;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public void setUserId(String userId) {

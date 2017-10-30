@@ -1,4 +1,4 @@
-package studio.jikewang.entity;
+package studio.jikewang.dto;
 
 import java.io.Serializable;
 
@@ -11,6 +11,8 @@ public class StudentClass implements Serializable{
     private int id;
     private String classId;
     private String userId;
+    private String userName;
+    private String cls;
     private String type;
     private int score;
     private int teacherScore;
@@ -37,6 +39,22 @@ public class StudentClass implements Serializable{
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getCls() {
+        return cls;
+    }
+
+    public void setCls(String cls) {
+        this.cls = cls;
     }
 
     public String getType() {
