@@ -47,12 +47,7 @@ WHERE `usercompany`.company_id=`company`.id AND `usercompany`.user_id = `user`.u
     <select id="getUserCompany" parameterType="int" resultType="userInfo">
         <include refid="base_query"/>  AND `usercompany`.id = #{_parameter}
     </select>
-    <select id="getClassNumByUserId" parameterType="String" resultType="classNum">
-        SELECT cls,COUNT(*) AS num FROM `usercompany`,`user` WHERE `user`.userId = usercompany.user_id
-        AND cls = (
-        SELECT cls FROM `user` WHERE userId = #{_parameter}
-        )
-    </select>
+
     <update id="updateUserCompany" parameterType="userCompany">
         UPDATE `usercompany`
         <trim prefix="set" suffixOverrides=",">

@@ -63,12 +63,7 @@ public interface UserCompanyDao {
      */
     List<UserInfo> listUserCompaniesByUserId(Page page);
 
-    /**
-     * 得到公司现有的每个班级的人数
-     * @param userId
-     * @return
-     */
-    ClassNum getClassNumByUserId(String userId);
+
 
     /**
      *公司成员信息更新

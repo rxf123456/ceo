@@ -1,6 +1,7 @@
 package studio.jikewang.filter;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,10 +11,11 @@ import java.io.IOException;
  * @author 李文浩
  * @version 2017/10/22.
  */
-//@WebFilter(urlPatterns = {"/*"},filterName = "loginFilter")
+@WebFilter(urlPatterns = {"/*"},filterName = "loginFilter")
 public class LoginFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+
 
     }
 

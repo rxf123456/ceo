@@ -17,7 +17,7 @@ public class Application {
     @NotEmpty(message = "学号不为空")
     private String userId;
     @NotNull(message = "公司号不为空")
-    private int companyId;
+    private Integer companyId;
 
 //    @Future(message = "你的时间错了吧")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

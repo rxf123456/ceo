@@ -7,6 +7,19 @@
         `id`,`user_id`, `company_id`, `create_time`, `modified_time`, `grade`,`calculated_grade`
     </sql>
 
+    <sql id="base_query">
+        SELECT `application`.`id`,
+        `application`.`user_id`,
+         `application`.`company_id`,
+         `application`.`create_time`,
+         `application`.`modified_time`,
+         `application`.`grade`,
+         `application`.`calculated_grade`,
+         company.`name` AS company_name,
+        company.`number`,`user`.userName
+FROM `application`,`company`,`user`
+WHERE `application`.company_id=`company`.id AND `user`.userId = application.user_id
+    </sql>
     <insert id="saveApplication" parameterType="application">
 INSERT INTO `application`(`user_id`, `company_id`, `create_time`, `modified_time`, `grade`)
 VALUES ( #{userId}, #{companyId}, NOW(), NOW(), #{grade}, #{grade} )
@@ -42,37 +55,32 @@ VALUES ( #{userId}, #{companyId}, NOW(), NOW(), #{grade}, #{grade} )
         )
     </delete>
 
-    <select id="listApplications" parameterType="page" resultType="application">
-        SELECT
-        <include refid="base_Column"/>
-        FROM `application`
+    <select id="listApplications" parameterType="page" resultType="userApplication">
+        <include refid="base_query"/>
     </select>
 
-    <select id="listApplicationsByCompanyId" parameterType="page" resultType="application">
-        SELECT
-        <include refid="base_Column"/>
-        FROM `application` WHERE `company_id` = #{object}
+    <select id="listApplicationsByCompanyId" parameterType="page" resultType="userApplication">
+        <include refid="base_query"/>
+        AND `company_id` = #{object}
     </select>
 
     <select id="listApplicationsByUserId" parameterType="page" resultType="userApplication">
- SELECT `application`.`id`,
-        `application`.`user_id`,
-         `application`.`company_id`,
-         `application`.`create_time`,
-         `application`.`modified_time`,
-         `application`.`grade`,
-         `application`.`calculated_grade`,
-         company.`name` AS company_name,
-        company.`number`
-FROM `application`,`company`
-WHERE `application`.company_id=`company`.id
-        AND `user_id` =  #{object}
+        <include refid="base_query"/>
+        AND `user_id` = #{object}
     </select>
 
     <select id="getApplication" parameterType="int" resultType="application">
         SELECT
         <include refid="base_Column"/>
         FROM `application` WHERE `id` = #{_parameter}
+    </select>
+
+
+    <select id="getClassNumByUserId" parameterType="application" resultType="classNum">
+        SELECT cls,COUNT(*) AS num FROM `usercompany`,`user` WHERE `user`.userId = usercompany.user_id
+        AND `user`.cls = (
+        SELECT cls FROM `user` WHERE userId =  #{userId}
+        ) AND `usercompany`.company_id = #{companyId}
     </select>
 
     <update id="updateApplication" parameterType="String">

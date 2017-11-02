@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import studio.jikewang.dao.ApplicationDao;
 import studio.jikewang.dao.CompanyDao;
-import studio.jikewang.dao.UserCompanyDao;
+import studio.jikewang.dao.StudentClassDao;
 import studio.jikewang.dto.ClassNum;
 import studio.jikewang.entity.Application;
 import studio.jikewang.entity.Company;
@@ -32,10 +32,10 @@ public class ApplicationService {
     private UserCompanyService userCompanyService;
 
     @Autowired
-    private UserCompanyDao userCompanyDao;
+    private CompanyDao companyDao;
 
     @Autowired
-    private CompanyDao companyDao;
+    private StudentClassDao studentClassDao;
 
     /**
      * 学生申请公司
@@ -48,8 +48,13 @@ public class ApplicationService {
             if (compnay.getNumber() >= Company.MAX_NUMBER) {
                 throw new ErrorException(compnay.getName() + "已经有了7个人了,你不能提交这次申请");
             }
-            String userId = application.getUserId();
-            ClassNum classNum = userCompanyDao.getClassNumByUserId(userId);
+            if (compnay.getIsScored() == 1) {
+                throw new ErrorException(compnay.getName() + "已经关闭了申请加入");
+            }
+            if (studentClassDao.getStudentClassByUserId(application.getUserId()) == null) {
+                throw new ErrorException("你没有报名此次CEO实验课程");
+            }
+            ClassNum classNum = applicationDao.getClassNumByUserId(application);
             if (classNum.getNum() >= Company.CLASS_NUM) {
                 throw new ErrorException("在" + compnay.getName() + "公司中" + classNum.getCls() + "班已经有了3个人，你不能提交这次申请");
             }

@@ -11,6 +11,7 @@ import java.util.Date;
 public class UserApplication {
     private int id;
     private String userId;
+    private String userName;
     private int companyId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
@@ -81,5 +82,13 @@ public class UserApplication {
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

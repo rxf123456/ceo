@@ -1,6 +1,7 @@
 package studio.jikewang.dao;
 
 import org.springframework.stereotype.Repository;
+import studio.jikewang.dto.ClassNum;
 import studio.jikewang.entity.Application;
 import studio.jikewang.util.Page;
 
@@ -70,6 +71,13 @@ public interface ApplicationDao {
      * @return
      */
     List<Application> listApplications(Page page);
+
+    /**
+     * 得到公司现有的每个班级的人数
+     * @param application
+     * @return
+     */
+    ClassNum getClassNumByUserId(Application application);
 
     /**
      * 公司CEO拒绝某个学生的申请
