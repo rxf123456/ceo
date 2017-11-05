@@ -12,8 +12,6 @@ import java.io.Serializable;
  * @version 2017/10/9.
  */
 public class UserCompany implements Serializable {
-    private static final long serialVersionUID = -6849794470754667710L;
-
     private int id;
     @NotNull(message = "公司号不为空", groups = Insert.class)
     private Integer companyId;
@@ -24,6 +22,7 @@ public class UserCompany implements Serializable {
     private String position;
     @Range(min = 0, max = 100, message = "你的分数打错了吧")
     private Double score;
+    private int isScored;
 
     public int getId() {
         return id;
@@ -64,4 +63,13 @@ public class UserCompany implements Serializable {
     public void setScore(Double score) {
         this.score = score;
     }
+
+    public int getIsScored() {
+        return isScored;
+    }
+
+    public void setIsScored(int isScored) {
+        this.isScored = isScored;
+    }
 }
+

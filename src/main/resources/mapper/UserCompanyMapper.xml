@@ -35,17 +35,24 @@ WHERE `usercompany`.company_id=`company`.id AND `usercompany`.user_id = `user`.u
     </delete>
 
     <select id="listUserCompanies" parameterType="page" resultType="userInfo">
-          <include refid="base_query"/>
+        <include refid="base_query"/>
     </select>
 
     <select id="listUserCompaniesByCompanyId" parameterType="page" resultType="userInfo">
-        <include refid="base_query"/> AND `company_id` = #{object}
+        <include refid="base_query"/>
+        AND `company_id` = #{object}
     </select>
     <select id="listUserCompaniesByUserId" parameterType="page" resultType="userInfo">
-        <include refid="base_query"/> AND `user_id` = #{object}
+        <include refid="base_query"/>
+        AND `user_id` = #{object}
     </select>
-    <select id="getUserCompany" parameterType="int" resultType="userInfo">
-        <include refid="base_query"/>  AND `usercompany`.id = #{_parameter}
+    <select id="getUserInfo" parameterType="int" resultType="userInfo">
+        <include refid="base_query"/>
+        AND `usercompany`.id = #{_parameter}
+    </select>
+    <select id="getUserCompany" parameterType="int" resultType="userCompany">
+       SELECT `id`, `company_id`, `user_id`, `position`, `score`, `is_scored`
+        FROM usercompany WHERE id = #{_parameter}
     </select>
 
     <update id="updateUserCompany" parameterType="userCompany">
@@ -53,7 +60,8 @@ WHERE `usercompany`.company_id=`company`.id AND `usercompany`.user_id = `user`.u
         <trim prefix="set" suffixOverrides=",">
             id = #{id},
             <if test="position!=null">`position`=#{position},</if>
-            <if test="score!=0">`score`= `score` + #{score}</if>
+            <if test="score!=null">`score`= `score` + #{score},</if>
+            <if test="isScored!=0">`is_scored`=  #{isScored},</if>
         </trim>
         WHERE `id`= #{id}
     </update>

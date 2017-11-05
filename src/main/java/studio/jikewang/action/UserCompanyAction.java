@@ -36,7 +36,7 @@ public class UserCompanyAction {
 
     @GetMapping("/{id}")
     public Result getUserCompany(@PathVariable int id) {
-        return ResultUtil.successResult(userCompanyService.getUserCompany(id));
+        return ResultUtil.successResult(userCompanyService.getUserInfo(id));
     }
 
     @GetMapping
@@ -60,11 +60,9 @@ public class UserCompanyAction {
 
     @PutMapping("/{id}")
     public Result updateUserCompany(@PathVariable int id,
-                                    @Validated({Update.class}) UserCompany userCompany,
-                                    Errors errors) {
+                                     UserCompany userCompany) {
         userCompany.setId(id);
         System.out.println(userCompany);
-
         userCompanyService.updateUserCompany(userCompany);
         return ResultUtil.SUCCESS_RESULT;
     }

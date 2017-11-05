@@ -42,10 +42,10 @@
     </filter-mapping>
 
 
-    <!--设置session过期时间-->
-    <session-config>
-        <session-timeout>30</session-timeout>
-    </session-config>
+    <!--&lt;!&ndash;设置session过期时间&ndash;&gt;-->
+    <!--<session-config>-->
+        <!--<session-timeout>30</session-timeout>-->
+    <!--</session-config>-->
     <!--配置404页面-->
     <error-page>
         <error-code>404</error-code>

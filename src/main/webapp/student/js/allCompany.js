@@ -1,15 +1,9 @@
 //所有公司
 $(function(){
-
     student_getCompanyInfo();
 
     $('.allCompanyInfo-tab').click(function(){
         student_getCompanyInfo();
-    })
-
-    //点击创建公司
-    $('.createCompany').click(function(){
-        student_createCompany
     })
 
     //查询公司
@@ -17,13 +11,13 @@ $(function(){
 		//学号姓名
 		var companyName = $('#companyName').val();
 		
-		$('#allCompanyInfo-table').bootstrapTable('refresh',{url:'/companies?name='+companyName})
+		$('#allCompanyInfo-table').bootstrapTable('refresh',{url:'/ceo/companies?name='+companyName})
     })
     
     //设置表格 采用bootstrap table
     function student_getCompanyInfo(){
         $('#allCompanyInfo-table').bootstrapTable({
-            url:'/companies',
+            url:'/ceo/companies',
             type:'GET',
             striped: true, 
             pagination: true,  //是否分页
@@ -64,7 +58,7 @@ $(function(){
                 var cur_table = $detail.html('<table></table>').find('table');
                 var companyId = row.id;
                 $(cur_table).bootstrapTable({
-                    url:'/usercompanies?companyId='+row.id,
+                    url:'/ceo/usercompanies?companyId='+row.id,
                     type:'GET', 
                     columns:[{
                         field: 'userId',
@@ -84,12 +78,12 @@ $(function(){
                     },{
                         field: 'score',
                         title: '总分'
-                    },{
-                        filed: 'setting',
-                        title: '操作',
-                        formatter: function(value,row){
-                            return '<a type="button" class="btn btn-xs btn-info">打分</a>&nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-xs btn-warning">设置职位</a>';
-                        }
+                    // },{
+                    //     filed: 'setting',
+                    //     title: '操作',
+                    //     formatter: function(value,row){
+                    //         return '<a type="button" class="btn btn-xs btn-info">打分</a>&nbsp;&nbsp;&nbsp;&nbsp;<a type="button" class="btn btn-xs btn-warning">设置职位</a>';
+                    //     }
                     }],
                     responseHandler:function(res){
                         var row = res.data.object;
@@ -107,11 +101,5 @@ $(function(){
                 orderType:'id'
             }
         }
-    }
-
-
-    //创建公司
-    function student_createCompany(){
-        
     }
 })

@@ -6,6 +6,7 @@ import studio.jikewang.dao.CompanyDao;
 import studio.jikewang.dao.UserCompanyDao;
 import studio.jikewang.dto.UserInfo;
 import studio.jikewang.entity.UserCompany;
+import studio.jikewang.exception.ErrorException;
 import studio.jikewang.util.Page;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class UserCompanyService {
      * @param id
      */
     public void deleteUserCompany(int id) {
-        UserInfo userCompany = getUserCompany(id);
+        UserInfo userCompany = getUserInfo(id);
         int companyId = userCompany.getCompanyId();
         if (CEO.equals(userCompany.getPosition())) {
             companyDao.deleteCompany(companyId);
@@ -54,12 +55,22 @@ public class UserCompanyService {
     }
 
     /**
+     * 得到单个公司成员信息和所属公司的信息
+     *
+     * @param id
+     * @return
+     */
+    public UserInfo getUserInfo(int id) {
+        return userCompanyDao.getUserInfo(id);
+    }
+
+    /**
      * 得到单个公司成员信息
      *
      * @param id
      * @return
      */
-    public UserInfo getUserCompany(int id) {
+    public UserCompany getUserCompany(int id) {
         return userCompanyDao.getUserCompany(id);
     }
 
@@ -99,9 +110,23 @@ public class UserCompanyService {
      * @param userCompany
      */
     public void updateUserCompany(UserCompany userCompany) {
-        int num = getUserCompany(userCompany.getId()).getNumber();
-        userCompany.setScore(userCompany.getScore() / num);
-        userCompanyDao.updateUserCompany(userCompany);
+        if (userCompany.getPosition() != null) {
+            userCompanyDao.updateUserCompany(userCompany);
+        } else {
+            userCompany = getUserCompany(userCompany.getId());
+            if (userCompany.getIsScored() == 1) {
+                throw new ErrorException("你已经对"+userCompany.getUserId()+"打了分了");
+            } else {
+                UserInfo userInfo = getUserInfo(userCompany.getId());
+                if (userInfo.getIsScored()==1) {
+                    throw new ErrorException(userInfo.getCompanyName() + "还未开始打分");
+                }
+                int num = userInfo.getNumber();
+                userCompany.setScore(userCompany.getScore() / num);
+                userCompany.setIsScored(1);
+                userCompanyDao.updateUserCompany(userCompany);
+            }
+        }
     }
 
 }

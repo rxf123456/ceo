@@ -1,7 +1,6 @@
 package studio.jikewang.dao;
 
 import org.springframework.stereotype.Repository;
-import studio.jikewang.dto.ClassNum;
 import studio.jikewang.dto.UserInfo;
 import studio.jikewang.entity.UserCompany;
 import studio.jikewang.util.Page;
@@ -36,11 +35,16 @@ public interface UserCompanyDao {
     int deleteAllUserCompany(int companyId);
 
     /**
+     * 得到单个公司成员信息和所属公司的信息
+     * @param id
+     * @return
+     */
+    UserInfo getUserInfo(int id);    /**
      * 得到单个公司成员信息
      * @param id
      * @return
      */
-    UserInfo getUserCompany(int id);
+    UserCompany getUserCompany(int id);
 
     /**
      *查看所有成员
