@@ -12,7 +12,6 @@ import java.io.Serializable;
  * @version 2017/10/2.
  */
 public class Company implements Serializable {
-    private static final long serialVersionUID = -6849794470754667710L;
     public final static int MAX_NUMBER = 7;
     /**
      * 在这个公司的每个班的最多人数,防止一个寝室的都选一个公司
@@ -26,7 +25,7 @@ public class Company implements Serializable {
     @Range(min = 1, max = 7, message = "人数出现问题", groups = {Update.class})
     Integer number;
     @Range(min = 0, max = 100, message = "你的分数打错了吧", groups = Update.class)
-    Integer score;
+    Double score;
     Integer isScored;
 
     public int getId() {
@@ -46,11 +45,11 @@ public class Company implements Serializable {
     }
 
 
-    public Integer getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(Integer score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 

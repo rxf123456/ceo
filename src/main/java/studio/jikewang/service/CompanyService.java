@@ -79,8 +79,8 @@ public class CompanyService {
      * @param page
      * @return
      */
-    public List<Company> listCompaniesByName(Page page) {
-        return companyDao.listCompaniesByName(page);
+    public List<Company> listCompaniesByStudentId(Page page) {
+        return companyDao.listCompaniesByStudentId(page);
     }
 
     /**
@@ -88,8 +88,8 @@ public class CompanyService {
      * @param page
      * @return
      */
-    public List<Company> listCompanies(Page page) {
-        return companyDao.listCompanies(page);
+    public List<Company> listCompaniesByTeacherId(Page page) {
+        return companyDao.listCompaniesByTeacherId(page);
     }
 
     /**

@@ -1,6 +1,5 @@
 package studio.jikewang.exception;
 
-import org.apache.ibatis.binding.BindingException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -56,13 +55,13 @@ public class MyExceptionHandler {
 
     }
 
-    @ExceptionHandler(BindingException.class)
-    public Result handleBindingException(BindingException e) {
-        Result result = new Result();
-        result.setStatus("0");
-        result.setMessage("数据库绑定异常");
-        return result;
-    }
+//    @ExceptionHandler(BindingException.class)
+//    public Result handleBindingException(BindingException e) {
+//        Result result = new Result();
+//        result.setStatus("0");
+//        result.setMessage("数据库绑定异常");
+//        return result;
+//    }
 
     @ExceptionHandler(CannotCreateTransactionException.class)
     public Result handleCannotCreateTransactionException(CannotCreateTransactionException e) {

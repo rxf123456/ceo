@@ -27,6 +27,7 @@ public class UserCompanyService {
     @Autowired
     private CompanyDao companyDao;
 
+
     /**
      * 公司增加成员
      *
@@ -105,28 +106,35 @@ public class UserCompanyService {
     }
 
     /**
-     * 公司成员信息更新
+     * 公司成员职位信息更新
      *
      * @param userCompany
      */
     public void updateUserCompany(UserCompany userCompany) {
-        if (userCompany.getPosition() != null) {
-            userCompanyDao.updateUserCompany(userCompany);
-        } else {
-            userCompany = getUserCompany(userCompany.getId());
-            if (userCompany.getIsScored() == 1) {
-                throw new ErrorException("你已经对"+userCompany.getUserId()+"打了分了");
-            } else {
-                UserInfo userInfo = getUserInfo(userCompany.getId());
-                if (userInfo.getIsScored()==1) {
-                    throw new ErrorException(userInfo.getCompanyName() + "还未开始打分");
-                }
-                int num = userInfo.getNumber();
-                userCompany.setScore(userCompany.getScore() / num);
-                userCompany.setIsScored(1);
-                userCompanyDao.updateUserCompany(userCompany);
-            }
-        }
+        userCompanyDao.updateUserCompany(userCompany);
     }
 
+    /**
+     * 公司成员互评分
+     *
+     * @param userCompanies
+     */
+    public void updateUserCompanyBatch(List<UserCompany> userCompanies) {
+        UserCompany userCompany = userCompanies.get(0);
+        if (getUserCompany(userCompany.getId()).getScored() == 1) {
+            throw new ErrorException("你已经给本公司的成员打分了");
+        }
+        UserInfo userInfo = getUserInfo(userCompany.getId());
+        if (userInfo.getIsScored() == 0) {
+            throw new ErrorException(userInfo.getCompanyName() + "还未开始打分");
+        }
+        userCompanies.remove(0);
+        int num = userInfo.getNumber() - 1;
+        for (UserCompany userCompany1 : userCompanies) {
+            userCompany1.setScore(userCompany1.getScore() / num);
+        }
+        userCompanyDao.updateUserCompanyBatch(userCompanies);
+        userCompany.setScored(1);
+        userCompanyDao.updateUserCompany(userCompany);
+    }
 }

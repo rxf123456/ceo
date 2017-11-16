@@ -70,7 +70,7 @@ public class PageInterceptor implements Interceptor {
 
     @Override
     public void setProperties(Properties properties) {
-        System.out.println(properties.get("parameterInterceptor"));
+//        System.out.println(properties.get("parameterInterceptor"));
     }
 
     public void init(Page page, int totalNumber) {

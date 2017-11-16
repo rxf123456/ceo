@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.*;
 import studio.jikewang.entity.Company;
 import studio.jikewang.exception.ErrorException;
 import studio.jikewang.service.CompanyService;
-import studio.jikewang.util.*;
+import studio.jikewang.util.Insert;
+import studio.jikewang.util.Page;
+import studio.jikewang.util.Result;
+import studio.jikewang.util.ResultUtil;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -42,15 +46,23 @@ public class CompanyAction {
     }
 
     @GetMapping
-    public Result listCompanies(Page page, String name) {
-        System.out.println(page);
-        if (name == null) {
-            page.setObject(companyService.listCompanies(page));
-        } else {
-            page.setObject(name);
-            List<Company> list = companyService.listCompaniesByName(page);
-            page.setObject(list);
+    public Result listCompanies(Page page, String teacherId, String studentId, String name) throws UnsupportedEncodingException {
+
+        if (name != null) {
+            name = new String(name.getBytes("ISO8859-1"), "UTF-8");
+            page.getMap().put("name", name);
         }
+        List<Company> list;
+        if (teacherId == null && studentId != null) {
+            page.setObject(studentId);
+            list = companyService.listCompaniesByStudentId(page);
+        } else if (studentId == null && teacherId != null) {
+            page.setObject(teacherId);
+            list = companyService.listCompaniesByTeacherId(page);
+        } else {
+            throw new ErrorException("只能传递学生的学号或者老师的id其中一个");
+        }
+        page.setObject(list);
         return ResultUtil.successResult(page);
     }
 

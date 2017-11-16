@@ -7,7 +7,6 @@ import java.io.Serializable;
  * @version 2017/10/10.
  */
 public class TeacherClass implements Serializable {
-    private static final long serialVersionUID = -6849794470754667710L;
     int id;
     String teacherId;
     String classId;

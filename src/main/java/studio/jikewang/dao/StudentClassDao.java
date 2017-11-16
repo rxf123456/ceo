@@ -2,6 +2,7 @@ package studio.jikewang.dao;
 
 import org.springframework.stereotype.Repository;
 import studio.jikewang.dto.StudentClass;
+import studio.jikewang.entity.Company;
 import studio.jikewang.util.Page;
 
 import java.util.List;
@@ -29,5 +30,11 @@ public interface StudentClassDao {
 
     int updateStudentClass(StudentClass studentClass);
 
+    int updateStudentClassBatch(List<StudentClass> studentClasses);
 
+    List<StudentClass> getStudentScore(String teacherId);
+
+    List<StudentClass> listStudentClassesByTeacherId(Page page);
+
+    List<Company> listCompaniesByTeacherId(Page page);
 }

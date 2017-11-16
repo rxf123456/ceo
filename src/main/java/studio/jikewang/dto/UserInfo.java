@@ -95,4 +95,20 @@ public class UserInfo {
     public void setIsScored(Integer isScored) {
         this.isScored = isScored;
     }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "id=" + id +
+                ", companyId=" + companyId +
+                ", userId='" + userId + '\'' +
+                ", cls='" + cls + '\'' +
+                ", userName='" + userName + '\'' +
+                ", position='" + position + '\'' +
+                ", score=" + score +
+                ", companyName='" + companyName + '\'' +
+                ", number=" + number +
+                ", isScored=" + isScored +
+                '}';
+    }
 }

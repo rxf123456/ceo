@@ -29,6 +29,7 @@
     <mvc:annotation-driven validator="validator">
     </mvc:annotation-driven>
 
+
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
         <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
         <!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
@@ -46,7 +47,6 @@
         <!--<property name="cacheSeconds" value="60"/>-->
     <!--</bean>-->
     <!--注册方法验证的后处理器-->
-    <bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor"/>
 
     <bean id="validationAdvice" class="studio.jikewang.util.ValidationAdvice" />
     <aop:config>
@@ -56,4 +56,6 @@
         </aop:aspect>
     </aop:config>
 
+    <bean  class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor">
+    </bean>
 </beans>

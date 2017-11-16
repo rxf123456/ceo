@@ -1,5 +1,8 @@
 package studio.jikewang.dto;
 
+import org.hibernate.validator.constraints.Range;
+import studio.jikewang.util.Update;
+
 import java.io.Serializable;
 
 /**
@@ -7,15 +10,19 @@ import java.io.Serializable;
  * @version 2017/10/9.
  */
 public class StudentClass implements Serializable{
-    private static final long serialVersionUID = -6849794470754667710L;
     private int id;
-    private String classId;
     private String userId;
-    private String userName;
     private String cls;
+    private String discipline;
+    private String grade;
+    private String userName;
+    private String classId;
     private String type;
-    private int score;
-    private int teacherScore;
+    private Double score;
+    @Range(min = 0, max = 100, message = "你的分数打错了吧", groups = Update.class)
+    private Double teacherScore;
+    private Double companyScore;
+    private Double studentScore;
 
     public int getId() {
         return id;
@@ -23,14 +30,6 @@ public class StudentClass implements Serializable{
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getClassId() {
-        return classId;
-    }
-
-    public void setClassId(String classId) {
-        this.classId = classId;
     }
 
     public String getUserId() {
@@ -41,6 +40,30 @@ public class StudentClass implements Serializable{
         this.userId = userId;
     }
 
+    public String getCls() {
+        return cls;
+    }
+
+    public void setCls(String cls) {
+        this.cls = cls;
+    }
+
+    public String getDiscipline() {
+        return discipline;
+    }
+
+    public void setDiscipline(String discipline) {
+        this.discipline = discipline;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -49,12 +72,12 @@ public class StudentClass implements Serializable{
         this.userName = userName;
     }
 
-    public String getCls() {
-        return cls;
+    public String getClassId() {
+        return classId;
     }
 
-    public void setCls(String cls) {
-        this.cls = cls;
+    public void setClassId(String classId) {
+        this.classId = classId;
     }
 
     public String getType() {
@@ -65,31 +88,53 @@ public class StudentClass implements Serializable{
         this.type = type;
     }
 
-    public int getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 
-    public int getTeacherScore() {
+    public Double getTeacherScore() {
         return teacherScore;
     }
 
-    public void setTeacherScore(int teacherScore) {
+    public void setTeacherScore(Double teacherScore) {
         this.teacherScore = teacherScore;
+    }
+
+    public Double getCompanyScore() {
+        return companyScore;
+    }
+
+    public void setCompanyScore(Double companyScore) {
+        this.companyScore = companyScore;
+    }
+
+    public Double getStudentScore() {
+        return studentScore;
+    }
+
+    public void setStudentScore(Double studentScore) {
+        this.studentScore = studentScore;
     }
 
     @Override
     public String toString() {
         return "StudentClass{" +
                 "id=" + id +
-                ", classId='" + classId + '\'' +
                 ", userId='" + userId + '\'' +
+                ", cls='" + cls + '\'' +
+                ", discipline='" + discipline + '\'' +
+                ", grade='" + grade + '\'' +
+                ", userName='" + userName + '\'' +
+                ", classId='" + classId + '\'' +
                 ", type='" + type + '\'' +
                 ", score=" + score +
                 ", teacherScore=" + teacherScore +
+                ", companyScore=" + companyScore +
+                ", studentScore=" + studentScore +
                 '}';
     }
 }

@@ -39,14 +39,14 @@ public interface CompanyDao {
      * @param page
      * @return
      */
-    List<Company> listCompaniesByName(Page page);
+    List<Company> listCompaniesByTeacherId(Page page);
 
     /**
-     *所有公司
+     * 所有公司
      * @param page
      * @return
      */
-    List<Company> listCompanies(Page page);
+    List<Company> listCompaniesByStudentId(Page page);
 
     /**
      *更新公司

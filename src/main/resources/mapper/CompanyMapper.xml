@@ -21,11 +21,25 @@
         <include refid="base_Column"/>
         FROM `company`
     </select>
-
-    <select id="listCompaniesByName" parameterType="page" resultType="company">
-        SELECT
-        <include refid="base_Column"/>
-        FROM `company` WHERE `name` LIKE #{object}"%"
+    <select id="listCompaniesByTeacherId" parameterType="page" resultType="company">
+        SELECT studentcompany.* FROM studentclass RIGHT JOIN
+(SELECT company.*,user_id FROM company,usercompany
+WHERE company.id = usercompany.company_id AND usercompany.position = 'CEO'
+        <if test="map.name!=null"> AND company.`name` LIKE #{map.name}"%" </if> ) AS studentcompany
+ON studentclass.user_id = studentcompany.user_id
+WHERE studentclass.`type` = 'CEO' AND studentclass.class_id = (
+SELECT class_id FROM teacherclass WHERE `teacher_id` = #{object}
+)
+    </select>
+    <select id="listCompaniesByStudentId" parameterType="page" resultType="company">
+SELECT studentcompany.* FROM studentclass RIGHT JOIN
+(SELECT company.*,user_id FROM company,usercompany
+WHERE company.id = usercompany.company_id AND usercompany.position = 'CEO'
+  <if test="map.name!=null"> AND company.`name` LIKE #{map.name}"%" </if> ) AS studentcompany
+ON studentclass.user_id = studentcompany.user_id
+WHERE studentclass.`type` = 'CEO' AND studentclass.class_id = (
+SELECT class_id FROM studentclass WHERE user_id = #{object}
+)
     </select>
 
     <select id="getCompany" parameterType="int" resultType="company">
@@ -47,12 +61,12 @@
         WHERE `id`= #{id}
     </update>
 
-    <update id="numberPlusOne" parameterType="int" >
+    <update id="numberPlusOne" parameterType="int">
 UPDATE `company` SET
         `number`=`number` + 1
 WHERE `id`= #{id}
     </update>
-    <update id="numberMinusOne" parameterType="int" >
+    <update id="numberMinusOne" parameterType="int">
 UPDATE `company` SET
         `number`=`number` - 1
 WHERE `id`= #{id}

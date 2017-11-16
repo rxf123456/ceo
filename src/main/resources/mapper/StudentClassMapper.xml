@@ -35,7 +35,17 @@ WHERE `user`.`userId` = `studentclass`.`user_id`
         <include refid="base_query"/>
         AND `studentclass`.`id`= #{_parameter}
     </select>
-
+    <select id="getStudentScore" parameterType="string" resultType="studentClass">
+SELECT studentclass.user_id, `user`.userName,`user`.cls,`user`.discipline,`user`.grade,studentclass.teacher_score
+ AS teacherScore, companyScore, studentScore,studentclass.score FROM studentclass
+LEFT JOIN ( SELECT usercompany.user_id,company.score AS companyScore,usercompany.score  AS studentScore
+FROM usercompany,company WHERE company.id = usercompany.company_id
+) AS studentConpany ON studentclass.user_id = studentConpany.user_id
+LEFT JOIN `user` ON `user`.userId = studentclass.user_id
+ WHERE studentclass.class_id = (
+SELECT class_id FROM teacherclass WHERE `teacher_id` = #{_parameter}
+) AND studentclass.user_id = '2014210844' ORDER BY studentclass.user_id
+    </select>
     <select id="getStudentClassByUserId" parameterType="String" resultType="studentClass">
         <include refid="base_query"/>
         AND `studentclass`.`user_id`= #{_parameter}
@@ -51,4 +61,28 @@ WHERE `user`.`userId` = `studentclass`.`user_id`
         </trim>
         WHERE `id`= #{id}
     </update>
+
+
+    <update id="updateStudentClassBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE `studentclass`
+            <trim prefix="set" suffixOverrides=",">
+                <if test="item.score!=null">`score`=#{item.score},</if>
+                <if test="item.teacherScore!=null">`teacher_score`=#{item.teacherScore},</if>
+            </trim>
+            where user_id = #{item.userId}
+        </foreach>
+    </update>
+
+    <select id="listStudentClassesByTeacherId" parameterType="page" resultType="studentClass">
+        SELECT `studentclass`.`id`,`studentclass`.`user_id`,`studentclass`.`type`,`studentclass`.`class_id`,
+        `studentclass`.teacher_score,studentclass.score,
+        `user`.userName,`user`.cls
+        FROM `studentclass`,`teacherclass`,`user` WHERE `teacherclass`.`class_id` = `studentclass`.`class_id`
+        AND `user`.userId = `studentclass`.user_id
+        AND `teacher_id` = #{map.teacherId}
+        <if test="map.userId!=null">AND `studentclass`.`user_id` LIKE #{map.userId}"%"</if>
+        <if test="map.userName!=null">AND `user`.userName LIKE #{map.userName}"%"</if>
+
+    </select>
 </mapper>

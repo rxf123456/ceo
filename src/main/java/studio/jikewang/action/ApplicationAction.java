@@ -2,6 +2,7 @@ package studio.jikewang.action;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import studio.jikewang.entity.Application;
 import studio.jikewang.service.ApplicationService;
@@ -30,7 +31,7 @@ public class ApplicationAction {
      * @return
      */
     @PostMapping(consumes = "application/json")
-    public Result saveApplicationBatch(@RequestBody List<Application> applications,
+    public Result saveApplicationBatch(@Validated @RequestBody List<Application> applications,
                                        Errors errors) {
         applicationService.saveApplicationBatch(applications);
         return ResultUtil.SUCCESS_RESULT;

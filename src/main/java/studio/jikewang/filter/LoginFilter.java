@@ -10,7 +10,6 @@ import java.io.IOException;
  * @author 李文浩
  * @version 2017/10/22.
  */
-//@WebFilter(urlPatterns = {"/*"},filterName = "loginFilter")
 public class LoginFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -21,10 +20,10 @@ public class LoginFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpSession session = request.getSession();
+        System.out.println("ceo session:" + session.getId());
         if (session == null || session.getAttribute("user") == null) {
             response.sendRedirect("/error.jsp");
         } else {
-
             filterChain.doFilter(request, response);
         }
     }

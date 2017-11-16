@@ -24,6 +24,7 @@
 
     <select id="listStudentClassesByTeacherId" parameterType="page" resultType="studentClass">
         SELECT `studentclass`.`id`,`studentclass`.`user_id`,`studentclass`.`type`,`studentclass`.`class_id`,
+        `studentclass`.teacher_score,studentclass.score,
         `user`.userName,`user`.cls
         FROM `studentclass`,`teacherclass`,`user` WHERE `teacherclass`.`class_id` = `studentclass`.`class_id`
         AND `user`.userId = `studentclass`.user_id

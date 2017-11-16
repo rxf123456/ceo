@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import studio.jikewang.dto.UserInfo;
 import studio.jikewang.entity.UserCompany;
+import studio.jikewang.exception.ErrorException;
 import studio.jikewang.service.UserCompanyService;
 import studio.jikewang.util.*;
 
@@ -40,7 +41,7 @@ public class UserCompanyAction {
     }
 
     @GetMapping
-    public Result listUserCompanyes(Page page, String companyId, String userId) {
+    public Result listUserCompanies(Page page, String companyId, String userId) {
         System.out.println(page);
         if (companyId == null && userId == null) {
             page.setObject(userCompanyService.listUserCompanies(page));
@@ -58,12 +59,34 @@ public class UserCompanyAction {
         return ResultUtil.successResult(page);
     }
 
+    /**
+     * 公司成员职位信息更新
+     * @param id
+     * @param position
+     * @return
+     */
     @PutMapping("/{id}")
     public Result updateUserCompany(@PathVariable int id,
-                                     UserCompany userCompany) {
+                                    String position) {
+        if (position == null) {
+            throw new ErrorException("你还未传入职位信息");
+        }
+        UserCompany userCompany = new UserCompany();
         userCompany.setId(id);
-        System.out.println(userCompany);
+        userCompany.setPosition(position);
         userCompanyService.updateUserCompany(userCompany);
+        return ResultUtil.SUCCESS_RESULT;
+    }
+
+    /**
+     * 公司成员互评分
+     *
+     * @param userCompanies
+     * @return
+     */
+    @PutMapping
+    public Result updateUserCompanyBatch(@Validated({Update.class}) @RequestBody List<UserCompany> userCompanies) {
+        userCompanyService.updateUserCompanyBatch(userCompanies);
         return ResultUtil.SUCCESS_RESULT;
     }
 

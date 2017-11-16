@@ -51,7 +51,7 @@ WHERE `usercompany`.company_id=`company`.id AND `usercompany`.user_id = `user`.u
         AND `usercompany`.id = #{_parameter}
     </select>
     <select id="getUserCompany" parameterType="int" resultType="userCompany">
-       SELECT `id`, `company_id`, `user_id`, `position`, `score`, `is_scored`
+       SELECT `id`, `company_id`, `user_id`, `position`, `score`, `scored`
         FROM usercompany WHERE id = #{_parameter}
     </select>
 
@@ -60,9 +60,18 @@ WHERE `usercompany`.company_id=`company`.id AND `usercompany`.user_id = `user`.u
         <trim prefix="set" suffixOverrides=",">
             id = #{id},
             <if test="position!=null">`position`=#{position},</if>
-            <if test="score!=null">`score`= `score` + #{score},</if>
-            <if test="isScored!=0">`is_scored`=  #{isScored},</if>
+            <if test="scored!=null">`scored`= #{scored},</if>
         </trim>
         WHERE `id`= #{id}
+    </update>
+
+    <update id="updateUserCompanyBatch" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE `usercompany`
+            <set>
+                `score`= `score` + #{item.score}
+            </set>
+            where `id`= #{item.id}
+        </foreach>
     </update>
 </mapper>
