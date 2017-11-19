@@ -15,19 +15,10 @@
     <mvc:cors>
         <mvc:mapping path="/**"/>
     </mvc:cors>
+    <bean  class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor">
+    </bean>
+    <mvc:annotation-driven validator="validator" />
 
-    <!-- 指定自己定义的validator -->
-    <!--<mvc:annotation-driven validator="validator"/>-->
-
-    <!--&lt;!&ndash; 以下 validator  ConversionService 在使用 mvc:annotation-driven 会 自动注册&ndash;&gt;-->
-    <!--<bean application="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">-->
-        <!--<property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>-->
-        <!--&lt;!&ndash; 如果不加默认到 使用classpath下的 ValidationMessages.properties &ndash;&gt;-->
-        <!--&lt;!&ndash;<property name="validationMessageSource" ref="messageSource"/>&ndash;&gt;-->
-    <!--</bean>-->
-
-    <mvc:annotation-driven validator="validator">
-    </mvc:annotation-driven>
 
 
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
@@ -35,6 +26,8 @@
         <!-- 如果不加默认到 使用classpath下的 ValidationMessages.properties -->
         <!--<property name="validationMessageSource" ref="messageSource"/>-->
     </bean>
+
+
     <!--<bean application="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">-->
         <!--&lt;!&ndash;<property name="basenames">&ndash;&gt;-->
             <!--&lt;!&ndash;<list>&ndash;&gt;-->
@@ -50,12 +43,12 @@
 
     <bean id="validationAdvice" class="studio.jikewang.util.ValidationAdvice" />
     <aop:config>
-        <aop:pointcut id="validationPC" expression="execution(public * studio.jikewang.action.*.*(..))" />
+        <aop:pointcut id="validation1" expression="execution(public * studio.jikewang.action.*.*(..))" />
         <aop:aspect id="validationAspect" ref="validationAdvice">
-            <aop:around method="aroundMethod" pointcut-ref="validationPC" />
+            <aop:around method="aroundMethod" pointcut-ref="validation1" />
         </aop:aspect>
     </aop:config>
 
-    <bean  class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor">
-    </bean>
+
+
 </beans>

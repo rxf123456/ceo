@@ -3,6 +3,10 @@ package studio.jikewang.util;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 李文浩
@@ -11,7 +15,6 @@ import org.springframework.validation.Errors;
 public class ValidationAdvice {
 
     /**
-     *
      * 切点处理
      *
      * @param pjp
@@ -19,18 +22,23 @@ public class ValidationAdvice {
      * @throws Throwable
      */
     public Object aroundMethod(ProceedingJoinPoint pjp) throws Throwable {
-        Errors result = null;
+        Errors errors = null;
         Object[] args = pjp.getArgs();
-        if (args != null && args.length != 0) {
+        if (null != args && args.length != 0) {
             for (Object object : args) {
                 if (object instanceof BindingResult) {
-                    result = (BindingResult) object;
+                    errors = (BindingResult) object;
                     break;
                 }
             }
         }
-        if (result != null && result.hasErrors()) {
-            return ResultUtil.messageResult(result);
+        if (errors != null && errors.hasErrors()) {
+            List<ObjectError> allErrors = errors.getAllErrors();
+            List<String> messages = new ArrayList<String>();
+            for (ObjectError error : allErrors) {
+                messages.add(error.getDefaultMessage());
+            }
+            return ResultUtil.messageResult(messages);
         }
         return pjp.proceed();
     }

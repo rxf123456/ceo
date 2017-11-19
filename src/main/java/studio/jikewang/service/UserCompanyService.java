@@ -128,6 +128,9 @@ public class UserCompanyService {
         if (userInfo.getIsScored() == 0) {
             throw new ErrorException(userInfo.getCompanyName() + "还未开始打分");
         }
+        if (userCompanies.size() != userInfo.getNumber()) {
+            throw new ErrorException("请为所有学生打分");
+        }
         userCompanies.remove(0);
         int num = userInfo.getNumber() - 1;
         for (UserCompany userCompany1 : userCompanies) {

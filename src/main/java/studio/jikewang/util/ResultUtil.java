@@ -1,11 +1,7 @@
 package studio.jikewang.util;
 
 
-import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 
-import java.util.ArrayList;
-import java.util.List;
 /**
  * @author 李文浩
  * @version 2017/10/2.
@@ -30,16 +26,10 @@ public class ResultUtil {
         return result;
     }
 
-    public static Result messageResult(Errors errors) {
+    public static Result messageResult(Object message) {
         Result result = new Result();
         result.setStatus("0");
-        List<ObjectError> errorList = errors.getAllErrors();
-        List<String> messages = new ArrayList<String>();
-        for (ObjectError error : errorList) {
-            messages.add(error.getDefaultMessage());
-        }
-        result.setMessage(messages);
-        result.setMessage(errorList);
+        result.setMessage(message);
         return result;
     }
 

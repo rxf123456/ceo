@@ -11,6 +11,9 @@ import studio.jikewang.util.ResultUtil;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 /**
@@ -73,12 +76,14 @@ public class MyExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public Result handleConstraintViolationException(ConstraintViolationException e) {
+        List<String> list = new ArrayList<String>();
         for (ConstraintViolation<?> s : e.getConstraintViolations()) {
             System.out.println(s.getInvalidValue() + ": " + s.getMessage());
+            list.add(s.getMessage());
         }
         Result result = new Result();
         result.setStatus("0");
-        result.setMessage("数据验证失败");
+        result.setMessage(list);
         return result;
     }
 

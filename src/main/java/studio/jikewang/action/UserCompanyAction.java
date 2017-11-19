@@ -1,5 +1,6 @@
 package studio.jikewang.action;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/usercompanies")
+@Validated
 public class UserCompanyAction {
     @Autowired
     private UserCompanyService userCompanyService;
@@ -67,7 +69,7 @@ public class UserCompanyAction {
      */
     @PutMapping("/{id}")
     public Result updateUserCompany(@PathVariable int id,
-                                    String position) {
+                                    @NotEmpty  String position) {
         if (position == null) {
             throw new ErrorException("你还未传入职位信息");
         }
