@@ -78,7 +78,6 @@ public class MyExceptionHandler {
     public Result handleConstraintViolationException(ConstraintViolationException e) {
         List<String> list = new ArrayList<String>();
         for (ConstraintViolation<?> s : e.getConstraintViolations()) {
-            System.out.println(s.getInvalidValue() + ": " + s.getMessage());
             list.add(s.getMessage());
         }
         Result result = new Result();

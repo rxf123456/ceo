@@ -7,7 +7,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import studio.jikewang.dto.UserInfo;
 import studio.jikewang.entity.UserCompany;
-import studio.jikewang.exception.ErrorException;
 import studio.jikewang.service.UserCompanyService;
 import studio.jikewang.util.*;
 
@@ -63,16 +62,14 @@ public class UserCompanyAction {
 
     /**
      * 公司成员职位信息更新
+     *
      * @param id
      * @param position
      * @return
      */
     @PutMapping("/{id}")
     public Result updateUserCompany(@PathVariable int id,
-                                    @NotEmpty  String position) {
-        if (position == null) {
-            throw new ErrorException("你还未传入职位信息");
-        }
+                                    @NotEmpty(message = "你还未传入职位信息") String position) {
         UserCompany userCompany = new UserCompany();
         userCompany.setId(id);
         userCompany.setPosition(position);
@@ -87,8 +84,9 @@ public class UserCompanyAction {
      * @return
      */
     @PutMapping
-    public Result updateUserCompanyBatch(@Validated({Update.class}) @RequestBody List<UserCompany> userCompanies) {
-        userCompanyService.updateUserCompanyBatch(userCompanies);
+    public Result updateUserCompanyBatch(@RequestBody @Validated({Update.class}) ValidList<UserCompany> userCompanies,
+                                         Errors errors) {
+        userCompanyService.updateUserCompanyBatch(userCompanies.getList());
         return ResultUtil.SUCCESS_RESULT;
     }
 

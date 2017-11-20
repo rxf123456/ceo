@@ -85,7 +85,7 @@ public class StudentClassAction {
     }
 
     @GetMapping("/downloadStudentScore")
-    public Result downloadStudentScore(@NotEmpty(message = "hhhhhhhhhhhhhhhhh") String teacherId,
+    public Result downloadStudentScore(@NotEmpty(message = "你必须传递老师ID") String teacherId,
                                        HttpServletResponse response) throws IOException {
         if (teacherId == null) {
             throw new ErrorException("必须传递老师ID");

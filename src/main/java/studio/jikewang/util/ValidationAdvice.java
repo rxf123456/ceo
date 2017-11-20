@@ -22,10 +22,14 @@ public class ValidationAdvice {
      * @throws Throwable
      */
     public Object aroundMethod(ProceedingJoinPoint pjp) throws Throwable {
-        Errors errors = null;
         Object[] args = pjp.getArgs();
+        boolean isValidList = false;
+        Errors errors = null;
         if (null != args && args.length != 0) {
             for (Object object : args) {
+                if (object instanceof ValidList) {
+                    isValidList = true;
+                }
                 if (object instanceof BindingResult) {
                     errors = (BindingResult) object;
                     break;
@@ -36,11 +40,15 @@ public class ValidationAdvice {
             List<ObjectError> allErrors = errors.getAllErrors();
             List<String> messages = new ArrayList<String>();
             for (ObjectError error : allErrors) {
-                messages.add(error.getDefaultMessage());
+                if (isValidList) {
+                    messages.add(error.getDefaultMessage());
+                    break;
+                } else {
+                    messages.add(error.getDefaultMessage());
+                }
             }
             return ResultUtil.messageResult(messages);
         }
         return pjp.proceed();
     }
-
 }

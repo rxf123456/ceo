@@ -9,6 +9,7 @@ import studio.jikewang.service.ApplicationService;
 import studio.jikewang.util.Page;
 import studio.jikewang.util.Result;
 import studio.jikewang.util.ResultUtil;
+import studio.jikewang.util.ValidList;
 
 import java.util.List;
 
@@ -31,14 +32,14 @@ public class ApplicationAction {
      * @return
      */
     @PostMapping(consumes = "application/json")
-    public Result saveApplicationBatch(@Validated @RequestBody List<Application> applications,
+    public Result saveApplicationBatch( @RequestBody @Validated ValidList<Application> applications,
                                        Errors errors) {
-        applicationService.saveApplicationBatch(applications);
+        System.out.println(applications.getList());
+        applicationService.saveApplicationBatch(applications.getList());
         return ResultUtil.SUCCESS_RESULT;
     }
 
     /**
-     *
      * 公司CEO接受某个学生的申请
      *
      * @param id
@@ -52,6 +53,7 @@ public class ApplicationAction {
 
     /**
      * 通过id得到某条具体的申请信息
+     *
      * @param id
      * @return
      */
@@ -62,9 +64,10 @@ public class ApplicationAction {
 
     /**
      * 所有申请信息
-     * @param page 分页
+     *
+     * @param page      分页
      * @param companyId CEO查看申请的所有学生及其志愿级别
-     * @param userId 学生查看申请的所有公司信息
+     * @param userId    学生查看申请的所有公司信息
      * @return
      */
     @GetMapping
@@ -87,6 +90,7 @@ public class ApplicationAction {
 
     /**
      * 公司CEO拒绝某个学生的申请
+     *
      * @param id
      * @param id
      * @return

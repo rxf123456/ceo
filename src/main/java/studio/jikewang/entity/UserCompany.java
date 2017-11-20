@@ -13,11 +13,11 @@ import java.io.Serializable;
  * @version 2017/10/9.
  */
 public class UserCompany implements Serializable {
+    @NotEmpty(message = "学号不为空", groups = Insert.class)
+    private String userId;
     private int id;
     @NotNull(message = "公司号不为空", groups = Insert.class)
     private Integer companyId;
-    @NotEmpty(message = "学号不为空", groups = Insert.class)
-    private String userId;
     private String position;
     @Range(min = 0, max = 100, message = "你的分数打错了吧", groups = Update.class)
     private Double score;

@@ -3,7 +3,6 @@ package studio.jikewang.entity;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -14,20 +13,21 @@ public class Application {
     private int id;
     @NotEmpty(message = "学号不为空")
     private String userId;
-    @NotNull(message = "公司号不为空")
+    @Range(message = "公司号为数字",min = 1)
     private Integer companyId;
 
-//    @Future(message = "你的时间错了吧")
+    //    @Future(message = "你的时间错了吧")
 //    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
-//    @Future(message = "你的时间错了吧")
+    //    @Future(message = "你的时间错了吧")
 //    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date modifiedTime;
     @Range(min = 1, max = 6, message = "志愿级别出现问题")
     private int grade;
     private int calculatedGrade;
+
     public int getId() {
         return id;
     }
@@ -44,11 +44,11 @@ public class Application {
         this.userId = userId;
     }
 
-    public int getCompanyId() {
+    public Integer getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(int companyId) {
+    public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
     }
 
