@@ -31,9 +31,9 @@ WHERE `user`.`userId` = `studentclass`.`user_id`
         AND `studentclass`.`class_id` = #{object}
     </select>
 
-    <select id="getStudentClass" parameterType="int" resultType="studentClass">
+    <select id="getStudentClass" parameterType="String" resultType="studentClass">
         <include refid="base_query"/>
-        AND `studentclass`.`id`= #{_parameter}
+        AND `studentclass`.`user_id`= #{_parameter}
     </select>
     <select id="getStudentScore" parameterType="string" resultType="studentClass">
 SELECT studentclass.user_id, `user`.userName,`user`.cls,`user`.discipline,`user`.grade,studentclass.teacher_score

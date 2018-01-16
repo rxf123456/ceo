@@ -20,7 +20,7 @@ public interface StudentClassDao {
 
     int deleteStudentClass(int id);
 
-    StudentClass getStudentClass(int id);
+    StudentClass getStudentClass(String id);
 
     StudentClass getStudentClassByUserId(String id);
 

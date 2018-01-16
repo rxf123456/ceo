@@ -38,8 +38,8 @@ public class StudentClassService {
 
     }
 
-    public StudentClass getStudentClass(int id) {
-        return studentClassDao.getStudentClass(id);
+    public StudentClass getStudentClass(String userId) {
+        return studentClassDao.getStudentClass(userId);
     }
 
     public StudentClass getStudentClassByUserId(String id) {

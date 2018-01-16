@@ -79,7 +79,7 @@ VALUES ( #{userId}, #{companyId}, NOW(), NOW(), #{grade}, #{grade} )
     <select id="getClassNumByUserId" parameterType="application" resultType="classNum">
         SELECT cls,COUNT(*) AS num FROM `usercompany`,`user` WHERE `user`.userId = usercompany.user_id
         AND `user`.cls = (
-        SELECT cls FROM `user` WHERE user_id =  #{userId}
+        SELECT cls FROM `user` WHERE userId =  #{userId}
         ) AND `usercompany`.company_id = #{companyId}
     </select>
 

@@ -74,7 +74,6 @@
         <servlet-name>dispatcher</servlet-name>
     </filter-mapping>
 
-
     <!--配置404页面-->
     <error-page>
         <error-code>404</error-code>

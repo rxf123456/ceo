@@ -40,9 +40,9 @@ public class StudentClassAction {
         return ResultUtil.SUCCESS_RESULT;
     }
 
-    @GetMapping("/{id}")
-    public Result getStudentClass(@PathVariable int id) {
-        return ResultUtil.successResult(studentClassService.getStudentClass(id));
+    @GetMapping("/getStudentClass")
+    public Result getStudentClass(String userId) {
+        return ResultUtil.successResult(studentClassService.getStudentClass(userId));
     }
 
     @GetMapping

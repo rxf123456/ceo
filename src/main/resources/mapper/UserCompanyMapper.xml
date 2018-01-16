@@ -8,7 +8,7 @@ SELECT `usercompany`.`id`,
         `usercompany`.`company_id`,
         `usercompany`.`user_id`,
         `usercompany`.`position`,
-         `usercompany`.`score`,
+             `usercompany`.`score`,
         company.`name` AS company_name,
         company.`number`,company.is_scored,
 `user`.cls,`user`.userName
