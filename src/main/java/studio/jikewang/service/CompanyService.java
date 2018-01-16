@@ -99,4 +99,8 @@ public class CompanyService {
     public void updateCompany(Company company) {
         companyDao.updateCompany(company);
     }
+
+    public void updateCompanyBatch(List<Company> companies) {
+        companyDao.updateCompanyBatch(companies);
+    }
 }

@@ -56,6 +56,13 @@ public interface CompanyDao {
     int updateCompany(Company company);
 
     /**
+     * 老师给所有公司打分
+     *
+     * @param companies
+     * @return
+     */
+    int updateCompanyBatch(List<Company> companies);
+    /**
      *公司人数加1
      * @param companyId
      * @return

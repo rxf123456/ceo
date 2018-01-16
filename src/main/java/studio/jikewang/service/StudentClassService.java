@@ -55,7 +55,13 @@ public class StudentClassService {
     }
 
     public List<StudentClass> listStudentClassesByTeacherId(Page page) {
-        return studentClassDao.listStudentClassesByTeacherId(page);
+        List<StudentClass> studentClasses = studentClassDao.listStudentClassesByTeacherId(page);
+        for (StudentClass studentClass : studentClasses) {
+            if ("CEO".equals(studentClass.getType()) && !"CEO".equals(studentClass.getPosition())) {
+                studentClass.setPosition("CEO");
+            }
+        }
+        return studentClasses;
     }
 
     public void updateStudentClass(StudentClass studentClass) {
@@ -122,7 +128,7 @@ public class StudentClassService {
         }
 
         //输出Excel文件
-        OutputStream output=response.getOutputStream();
+        OutputStream output = response.getOutputStream();
         response.reset();
         response.setHeader("Content-disposition", "attachment; filename=studentScore.xls");
         response.setContentType("application/msexcel");

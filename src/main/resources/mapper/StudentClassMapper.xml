@@ -76,11 +76,12 @@ SELECT class_id FROM teacherclass WHERE `teacher_id` = #{_parameter}
 
     <select id="listStudentClassesByTeacherId" parameterType="page" resultType="studentClass">
         SELECT `studentclass`.`id`,`studentclass`.`user_id`,`studentclass`.`type`,`studentclass`.`class_id`,
-        `studentclass`.teacher_score,studentclass.score,
-        `user`.userName,`user`.cls
-        FROM `studentclass`,`teacherclass`,`user` WHERE `teacherclass`.`class_id` = `studentclass`.`class_id`
-        AND `user`.userId = `studentclass`.user_id
-        AND `teacher_id` = #{map.teacherId}
+        `studentclass`.teacher_score,studentclass.score,`user`.userName,`user`.cls,usercompany.position,company.`name`
+        AS companyName FROM studentclass
+        LEFT JOIN usercompany ON studentclass.user_id = usercompany.user_id
+        LEFT JOIN `user` ON `user`.userId = studentclass.user_id
+        LEFT JOIN company ON company.id = usercompany.company_id
+        WHERE studentclass.class_id = (SELECT class_id FROM teacherclass WHERE teacher_id = #{map.teacherId})
         <if test="map.userId!=null">AND `studentclass`.`user_id` LIKE #{map.userId}"%"</if>
         <if test="map.userName!=null">AND `user`.userName LIKE #{map.userName}"%"</if>
 

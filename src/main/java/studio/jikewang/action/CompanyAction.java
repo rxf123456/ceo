@@ -8,10 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import studio.jikewang.entity.Company;
 import studio.jikewang.exception.ErrorException;
 import studio.jikewang.service.CompanyService;
-import studio.jikewang.util.Insert;
-import studio.jikewang.util.Page;
-import studio.jikewang.util.Result;
-import studio.jikewang.util.ResultUtil;
+import studio.jikewang.util.*;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -76,6 +73,20 @@ public class CompanyAction {
             }
         }
         companyService.updateCompany(company);
+        return ResultUtil.SUCCESS_RESULT;
+    }
+
+    /**
+     * 老师给所有公司打分
+     *
+     * @param companies
+     * @param errors
+     * @return
+     */
+    @PutMapping(consumes = "application/json")
+    public Result updateCompanies(@RequestBody @Validated ValidList<Company> companies,
+                                  Errors errors) {
+        companyService.updateCompanyBatch(companies.getList());
         return ResultUtil.SUCCESS_RESULT;
     }
 }

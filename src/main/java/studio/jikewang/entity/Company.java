@@ -22,7 +22,7 @@ public class Company implements Serializable {
     int id;
     @NotEmpty(message = "公司名不为空", groups = Insert.class)
     String name;
-    @Range(min = 1, max = 7, message = "人数出现问题", groups = {Update.class})
+    @Range(min = 1, max = 7, message = "人数出现问题")
     Integer number;
     @Range(min = 0, max = 100, message = "你的分数打错了吧", groups = Update.class)
     Double score;

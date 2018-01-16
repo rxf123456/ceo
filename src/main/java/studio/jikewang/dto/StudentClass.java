@@ -18,6 +18,8 @@ public class StudentClass implements Serializable{
     private String userName;
     private String classId;
     private String type;
+    private String companyName;
+    private String position;
     private Double score;
     @Range(min = 0, max = 100, message = "你的分数打错了吧", groups = Update.class)
     private Double teacherScore;
@@ -88,6 +90,22 @@ public class StudentClass implements Serializable{
         this.type = type;
     }
 
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
     public Double getScore() {
         return score;
     }
@@ -131,6 +149,8 @@ public class StudentClass implements Serializable{
                 ", userName='" + userName + '\'' +
                 ", classId='" + classId + '\'' +
                 ", type='" + type + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", position='" + position + '\'' +
                 ", score=" + score +
                 ", teacherScore=" + teacherScore +
                 ", companyScore=" + companyScore +
