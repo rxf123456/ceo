@@ -94,5 +94,5 @@ public interface UserCompanyDao {
      */
     int updateUserCompanyBatch(List<UserCompany> userCompanies);
 
-
+    int isTeacherScored(String userId);
 }

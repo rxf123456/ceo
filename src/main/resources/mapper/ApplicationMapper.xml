@@ -87,4 +87,8 @@ VALUES ( #{userId}, #{companyId}, NOW(), NOW(), #{grade}, #{grade} )
 UPDATE `application` SET `modified_time` = NOW(), `calculated_grade` = `calculated_grade` - 1
 WHERE `user_id` = #{_parameter}
     </update>
+
+    <delete id="clearExpiredApplication">
+        DELETE FROM application WHERE date_add(application.modified_time, interval 10*application.calculated_grade minute) <![CDATA[<]]> NOW()
+    </delete>
 </mapper>

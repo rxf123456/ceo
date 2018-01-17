@@ -1,6 +1,7 @@
 package studio.jikewang.action;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class ApplicationAction {
      * @return
      */
     @PostMapping(consumes = "application/json")
-    public Result saveApplicationBatch( @RequestBody @Validated ValidList<Application> applications,
+    public Result saveApplicationBatch(@RequestBody @Validated ValidList<Application> applications,
                                        Errors errors) {
         System.out.println(applications.getList());
         applicationService.saveApplicationBatch(applications.getList());
@@ -99,5 +100,10 @@ public class ApplicationAction {
     public Result updateApplication(@PathVariable int id) {
         applicationService.updateApplication(id);
         return ResultUtil.SUCCESS_RESULT;
+    }
+
+    @Scheduled(fixedRate = 1000 * 60 * 10)
+    public void clearExpiredApplication() {
+        applicationService.clearExpiredApplication();
     }
 }

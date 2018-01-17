@@ -64,7 +64,11 @@ WHERE `usercompany`.company_id=`company`.id AND `usercompany`.user_id = `user`.u
         </trim>
         WHERE `id`= #{id}
     </update>
-
+    <select id="isTeacherScored" parameterType="string" resultType="int">
+    SELECT (company.score!=0 AND  studentclass.score IS NOT NULL) AS flag FROM company,usercompany,studentclass
+WHERE  usercompany.company_id = company.id
+AND studentclass.user_id =#{_parameter} AND usercompany.user_id = #{_parameter}
+</select>
     <update id="updateUserCompanyBatch" parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE `usercompany`

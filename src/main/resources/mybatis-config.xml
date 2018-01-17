@@ -15,7 +15,7 @@
         <setting name="mapUnderscoreToCamelCase" value="true"/>
 
         <!--打印执行的Sql语句和参数-->
-        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!--<setting name="logImpl" value="STDOUT_LOGGING"/>-->
 
         <!--<setting name="cacheEnabled" value="true" />-->
 

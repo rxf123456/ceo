@@ -87,4 +87,5 @@ public interface ApplicationDao {
      */
     int updateApplication(String userId);
 
+    int clearExpiredApplication();
 }

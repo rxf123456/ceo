@@ -129,4 +129,16 @@ public class ApplicationService {
         }
     }
 
+    /**
+     *
+     * 清除失效的application记录
+     */
+    public void clearExpiredApplication() {
+        int num = applicationDao.clearExpiredApplication();
+        if (num != 0) {
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            System.out.println(df.format(new Date()) + "清除了application表中" + num + "条失效的请求记录");
+        }
+    }
+
 }

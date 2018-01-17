@@ -115,28 +115,58 @@ public class UserCompanyService {
     }
 
     /**
-     * 公司成员互评分
+     * 首先判断老师是否给公司和学生打分，打分后，公司成员才可以进行互评分
      *
      * @param userCompanies
      */
     public void updateUserCompanyBatch(List<UserCompany> userCompanies) {
+
         UserCompany userCompany = userCompanies.get(0);
         if (getUserCompany(userCompany.getId()).getScored() == 1) {
             throw new ErrorException("你已经给本公司的成员打分了");
         }
         UserInfo userInfo = getUserInfo(userCompany.getId());
         if (userInfo.getIsScored() == 0) {
-            throw new ErrorException(userInfo.getCompanyName() + "还未开始打分");
+            throw new ErrorException(userInfo.getCompanyName() + "还未开始打分，请让CEO锁定公司，锁定公司将不可撤回，然后开始打分");
         }
         if (userCompanies.size() != userInfo.getNumber()) {
             throw new ErrorException("请为所有学生打分");
         }
-        userCompanies.remove(0);
-        int num = userInfo.getNumber() - 1;
-        for (UserCompany userCompany1 : userCompanies) {
-            userCompany1.setScore(userCompany1.getScore() / num);
+        if (userCompanyDao.isTeacherScored(userInfo.getUserId()) == 0) {
+            throw new ErrorException("老师还未开始打分，请让老师给你和你的公司打分");
         }
+
+        // 在成员互评的时候，计算占比，CEO打的分占比40%，其他所有人的分占比0.6，每个人占0.6/总人数-1
+        double proportion = 0;
+
+        //CEO给成员打分
+        if ("CEO".equals(userInfo.getPosition())) {
+            if (userCompanies.size() == 2) {
+                proportion = 1.0;
+            } else {
+                proportion = 0.4;
+            }
+        } else {
+            //成员给其他人打分
+            proportion = 0.6 / (userInfo.getNumber() - 2);
+
+        }
+//        System.out.println(proportion);
+        //第一个是打分人的id，打分人Id是用来标志这个人已经给其他人都打了分，删除
+        userCompanies.remove(0);
+        UserCompany userCompany2;
+        for (UserCompany userCompany1 : userCompanies) {
+            userCompany2 = getUserCompany(userCompany1.getId());
+            //成员给CEO打分时，是采取平分机制的
+            if ("CEO".equals(userCompany2.getPosition())) {
+                userCompany1.setScore(userCompany1.getScore() / (userInfo.getNumber() - 1));
+            } else {
+                userCompany1.setScore(userCompany1.getScore() * proportion);
+            }
+        }
+
         userCompanyDao.updateUserCompanyBatch(userCompanies);
+        //表示此成员已经给公司其他所有成员打分
         userCompany.setScored(1);
         userCompanyDao.updateUserCompany(userCompany);
     }
